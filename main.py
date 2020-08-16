@@ -10,6 +10,8 @@ from gpiozero import LED, Button
 
 # Connecting to Pixhawk
 
+# Functions
+# Arm and Take-off
 def arm_and_takeoff(aTargetAltitude):
     print("Basic pre-arm checks")
     # Don't let the user try to arm until autopilot is ready
@@ -38,39 +40,119 @@ def arm_and_takeoff(aTargetAltitude):
             break
         time.sleep(1)
 
+# Mission 1: Go to water intake area using specified route
+def mission_1(aLocation, aSize):
+    cmds = vehicle.commands
+    print("Clear any existing commands")
+    cmds.clear() 
+    # Add way points
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 55, 55, 55))
+    # Upload the mission
+    cmds.upload()
+
+# Mission 2: Scan for the water discharge area (image processing)
+def mission_2():
+    print("Area found")
+
+# Mission 3: Go to water intake area using specified route
+def mission_3():
+    cmds = vehicle.commands
+    print("Clear any existing commands")
+    cmds.clear() 
+    # Add way points
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 55, 55, 55))
+    # Upload the mission
+    cmds.upload()
+
+# Water intake
+def water_intake():
+    print("water intake")
+
+    # Descent up to 20 cm height from ground
+
+    # Ckech if motors touching water and water level
+
+    # Pump water
+
+# Mission 4: Go to the water discharge area
+def mission_4(GPS):
+    cmds = vehicle.commands
+    print("Clear any existing commands")
+    cmds.clear() 
+    # Add way points
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 55, 55, 55))
+    # Upload the mission
+    cmds.upload()
+
+# Mission 5: Go back to the landing area
+def mission_5():
+    cmds = vehicle.commands
+    print("Clear any existing commands")
+    cmds.clear() 
+    # Add way points
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 55, 55, 55))
+    # Upload the mission
+    cmds.upload()
+
+# Water discharge
+def water_discharge():
+    print("water discharge")
+
+    # Descent up to 20 cm from ground
+
+    # Check water level
+
+    # Discharge water
+
+
+# Create and upload the Mission 1
+mission_1()
+
 # Automous take-off (5 m)
 arm_and_takeoff(5)
 
 # Reset mission set to first (0) waypoint
-vehicle.commands.next=0
+vehicle.commands.next = 0
 
 # Set mode to AUTO to start mission
 vehicle.mode = VehicleMode("AUTO")
 
-# Go to water intake area using specified route
+# Check if Mission 1 is done
+while vehicle.commands.next != 21:
+    time.sleep(1)
 
 # Scan for the water discharge area
+water_discharge_GPS = mission_2()
 
-# Get the coordinates
+# Check if Mission 2 is done
+while not water_discharge_GPS:
+    time.sleep(1)
 
-# Go to water intake area using specified route
+# Create and upload the Mission 3
+mission_3()
 
-# Descent up to 20 cm height from ground
+# Reset mission set to first (0) waypoint
+vehicle.commands.next = 0
 
-# Ckech if motors touching water and water level
+# Intaking water
+water_intake()
 
-    # Pump water
-
-# Ascent to 5 meters
+# Control structures --------
 
 # Go to the water discharge area
+mission_4(water_discharge_GPS)
 
-# Descent up to 20 cm from ground
+# Control structures --------
 
-# Check water level
+# Discharge water
+water_discharge()
 
-    # Discharge water
+# Control structures --------
 
-# Go to the take-off area
+# Create and upload the Mission 5
+mission_5()
+
+# Reset mission set to first (0) waypoint
+vehicle.commands.next = 0
 
 # Land
