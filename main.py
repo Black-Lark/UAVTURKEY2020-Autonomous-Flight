@@ -9,7 +9,7 @@ from pymavlink import mavutil
 from gpiozero import LED, Button
 
 # Connecting to Pixhawk
-
+#Sa
 # Functions
 # Arm and Take-off
 def arm_and_takeoff(aTargetAltitude):
