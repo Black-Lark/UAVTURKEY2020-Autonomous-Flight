@@ -4,7 +4,7 @@ import numpy as np
 cap = cv2.VideoCapture(0)
 cX_array = np.zeros(50)
 cY_array = np.zeros(50)
-
+# Sam
 while True:
     _,frame = cap.read()
 
