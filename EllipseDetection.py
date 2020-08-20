@@ -2,8 +2,8 @@ import cv2
 import numpy as np
 
 cap = cv2.VideoCapture(0)
-cX_array = np.zeros(50)
-cY_array = np.zeros(50)
+cX_array = np.zeros(15)
+cY_array = np.zeros(15)
 
 while True:
     _,frame = cap.read()
@@ -14,11 +14,9 @@ while True:
     mask = cv2.bitwise_or(mask1,mask2)
 
     cropped = cv2.bitwise_and(hsv,hsv,mask=mask)
-    blur = cv2.blur(cropped,(10,10))
-
+    blur = cv2.bilateralFilter(cropped,9,75,75)
     # Used the gray scale image
     grayScale = cv2.cvtColor(blur,cv2.COLOR_BGR2GRAY)
-    # First obtain the threshold using the grayscale image
     ret,th = cv2.threshold(grayScale,127,255,0)
     # Find all the contours in the binary image
     contours, hierarchy = cv2.findContours(th,2,1)
@@ -33,7 +31,7 @@ while True:
         M = cv2.moments(i)
         approx = cv2.approxPolyDP(i,0.01*cv2.arcLength(i,True),True)
 
-        if len(approx) > 10:
+        if len(approx) > 10 :
 
             if M["m00"] != 0:
                 cX = int(M["m10"] / M["m00"])
@@ -54,9 +52,10 @@ while True:
 
             cv2.circle(frame, (cX, cY), 7, (255, 255, 255), -1)
             final = cv2.drawContours(frame,big_contours,-1,(0,255,0),3)
-
+    # Showing
     cv2.imshow('frame',final)
     cv2.imshow('grayscale',grayScale)
+    cv2.imshow('Blur Processing',blur)
     cv2.imshow('cropped',cropped)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
