@@ -16,7 +16,7 @@ while(cap.isOpened()):
         mask2 = cv2.inRange(frame_hsv, (170, 70, 50), (180, 255, 255))
         mask = mask1 + mask2
         # Edge detection
-        canny_output = cv2.Canny(mask, 10, 100, 100)
+        canny_output = cv2.Canny(mask, 10, 10, 20)
         # Find the center
         pixels = np.where(canny_output == 255)
         cX = np.average(pixels[1])
