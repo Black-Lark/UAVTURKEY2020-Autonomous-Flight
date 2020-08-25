@@ -5,6 +5,8 @@ from pymavlink import mavutil
 from gpiozero import LED, Button
 vehicle = connect('/dev/serial0', wait_ready=True, baud=921000)
 
+vehicle.mode    = VehicleMode("AUTO")
+
 def arm_and_takeoff(aTargetAltitude):
     while not vehicle.is_armable:
         time.sleep(1)
