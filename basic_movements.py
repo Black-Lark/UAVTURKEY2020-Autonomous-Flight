@@ -49,8 +49,8 @@ def arm_and_takeoff(aTargetAltitude):
         time.sleep(1)
 
 
-arm_and_takeoff(1)
-
+arm_and_takeoff(2)
+time.sleep(1)
 
 degree = 1
 east = 0
