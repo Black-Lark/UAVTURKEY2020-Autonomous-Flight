@@ -91,7 +91,7 @@ def goto(dNorth, dEast, gotoFunction=vehicle.simple_goto):
     while vehicle.mode.name=="GUIDED": #Stop action if we are no longer in guided mode.
         remainingDistance=get_distance_metres(vehicle.location.global_frame, targetLocation)
         print ("Distance to target: ", remainingDistance)
-        if remainingDistance<=targetDistance*0.1: #Just below target, in case of undershoot.
+        if remainingDistance<=targetDistance*0.3: #Just below target, in case of undershoot.
             print ("Reached target")
             break
         time.sleep(2)
@@ -116,7 +116,7 @@ def condition_yaw(heading, relative=False):
     # send command to vehicle
     vehicle.send_mavlink(msg)
 
-goto(0,2)
+goto(0,3)
 time.sleep(2)
 vehicle.mode = VehicleMode("LAND")
 
