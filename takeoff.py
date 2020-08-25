@@ -3,7 +3,7 @@ from dronekit import connect, VehicleMode, LocationGlobalRelative, LocationGloba
 import time
 from pymavlink import mavutil
 from gpiozero import LED, Button
-vehicle = connect('/dev/serial0', wait_ready=True)
+vehicle = connect('/dev/serial0', wait_ready=True, baud=921000)
 
 def arm_and_takeoff(aTargetAltitude):
     while not vehicle.is_armable:
