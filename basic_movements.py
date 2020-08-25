@@ -116,12 +116,6 @@ def condition_yaw(heading, relative=False):
     # send command to vehicle
     vehicle.send_mavlink(msg)
 
-goto(2,0)
-time.sleep(3)
 goto(0,2)
-time.sleep(3)
-goto(-2,0)
-time.sleep(3)
-goto(0,-2)
-time.sleep(3)
+
 
