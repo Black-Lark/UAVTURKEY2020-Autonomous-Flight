@@ -5,7 +5,7 @@ from pymavlink import mavutil
 from dronekit import connect, VehicleMode, LocationGlobalRelative,Vehicle, LocationGlobal
 import time
 import math
-vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
+vehicle = connect("tcp:127.0.0.1:5762", wait_ready=True, baud=921000)
 camera = PiCamera()
 camera.start_preview()
 def arm_and_takeoff(aTargetAltitude):
