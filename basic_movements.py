@@ -5,6 +5,7 @@ from pymavlink import mavutil
 from dronekit import connect, VehicleMode, LocationGlobalRelative,Vehicle, LocationGlobal
 import time
 import math
+# Connect
 vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
 
 def arm_and_takeoff(aTargetAltitude):
