@@ -117,5 +117,6 @@ def condition_yaw(heading, relative=False):
     vehicle.send_mavlink(msg)
 
 goto(0,2)
+time.sleep(2)
 vehicle.mode = VehicleMode("LAND")
 
