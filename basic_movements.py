@@ -1,5 +1,4 @@
 import numpy as np
-import cv2
 from picamera import PiCamera
 from pymavlink import mavutil
 from dronekit import connect, VehicleMode, LocationGlobalRelative,Vehicle, LocationGlobal
