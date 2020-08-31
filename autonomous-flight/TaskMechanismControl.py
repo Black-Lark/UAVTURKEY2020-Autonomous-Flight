@@ -18,4 +18,6 @@ level3 = Button(26)
 
 dcmotor = LED(21)
 
+dcmotor.on()
+
 pause()
