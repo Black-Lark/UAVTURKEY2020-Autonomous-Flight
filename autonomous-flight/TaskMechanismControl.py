@@ -1,10 +1,10 @@
 from gpiozero import LED, Button
 import time
 
-level0 = Button(31)
-level1 = Button(33)
-level2 = Button(35)
-level3 = Button(37)
+level0 = Button(6)
+level1 = Button(13)
+level2 = Button(19)
+level3 = Button(26)
 
 
 while True:
