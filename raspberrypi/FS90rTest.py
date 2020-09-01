@@ -5,7 +5,7 @@ GPIO.setup(13, GPIO.OUT)
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(13, GPIO.OUT)
-
+GPIO.setwarnings(False)
 pwm=GPIO.PWM(13, 50)
 pwm.start(0)
 
