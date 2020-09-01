@@ -27,9 +27,7 @@ while(cap.isOpened()):
        
         Diameter = abs(pixel_max-pixel_min)
         Diameter_x = abs(pixel_max_x - pixel_min_x)
-        print(Diameter)
-        print(Diameter_x)
-
+        print(Diameter,Diameter_x)
         cX = np.average(pixels[1])
         cY = np.average(pixels[0])
 
