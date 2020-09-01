@@ -2,11 +2,11 @@ import RPi.GPIO as GPIO
 import time
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)
-GPIO.setup(13, GPIO.OUT)
+GPIO.setup(33, GPIO.OUT)
 
 GPIO.setmode(GPIO.BOARD)
-GPIO.setup(13, GPIO.OUT)
-pwm=GPIO.PWM(13, 50)
+GPIO.setup(33, GPIO.OUT)
+pwm=GPIO.PWM(33, 50)
 pwm.start(0)
 
 pwm.ChangeDutyCycle(10) # left -90 deg position
