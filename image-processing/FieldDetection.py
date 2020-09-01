@@ -20,18 +20,17 @@ while(cap.isOpened()):
         canny_output = cv2.Canny(mask, 10, 10, 20)
         # Find the center
         pixels = np.where(canny_output == 255)
-        NumberOfPixels_x = len(pixels[1])
-        NumberOfPixels_y = len(pixels[0])
-        print(NumberOfPixels_x, NumberOfPixels_y)
+        pixel_max = max(pixels[0])
+        pixel_min = min(pixels[0])
+        Diameter = abs(pixel_max-pixel_min)
+        print(Diameter)
         cX = np.average(pixels[1])
         cY = np.average(pixels[0])
-        sum = sum + NumberOfPixels_x
-        counter = counter + 1 
+
         # cX cY -> NaN
         cv2.circle(canny_output, (int(cX),int(cY)), 3, (255,255,255), thickness=10, lineType=8, shift=0)
         # Show the frame
         cv2.imshow("contours", canny_output)
-        print(sum/counter)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             print('Video stream has been terminated.')
             break
