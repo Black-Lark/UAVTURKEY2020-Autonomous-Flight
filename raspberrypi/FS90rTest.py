@@ -1,5 +1,5 @@
 import RPi.GPIO as GPIO
-from time import sleep
+import time
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(13, GPIO.OUT)
 
