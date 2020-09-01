@@ -4,8 +4,7 @@ import numpy as np
 cap = cv2.VideoCapture(0)
 frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-sum = 0
-counter = 0
+
 while(cap.isOpened()):
     ret, frame = cap.read()
 
@@ -30,6 +29,7 @@ while(cap.isOpened()):
         Diameter_x = abs(pixel_max_x - pixel_min_x)
         print(Diameter)
         print(Diameter_x)
+
         cX = np.average(pixels[1])
         cY = np.average(pixels[0])
 
