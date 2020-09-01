@@ -22,8 +22,14 @@ while(cap.isOpened()):
         pixels = np.where(canny_output == 255)
         pixel_max = max(pixels[0])
         pixel_min = min(pixels[0])
+       
+        pixel_max_x = max(pixels[1])
+        pixel_min_x = min(pixels[1])
+       
         Diameter = abs(pixel_max-pixel_min)
+        Diameter_x = abs(pixel_max_x - pixel_min_x)
         print(Diameter)
+        print(Diameter_x)
         cX = np.average(pixels[1])
         cY = np.average(pixels[0])
 
