@@ -20,7 +20,8 @@ while(cap.isOpened()):
         # Find the center
         pixels = np.where(canny_output == 255)
         NumberOfPixels_x = len(pixels[1])
-        print(NumberOfPixels_x)
+        NumberOfPixels_y = len(pixels[0])
+        print(NumberOfPixels_x, NumberOfPixels_y)
         cX = np.average(pixels[1])
         cY = np.average(pixels[0])
         
