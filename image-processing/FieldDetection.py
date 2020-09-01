@@ -4,7 +4,8 @@ import numpy as np
 cap = cv2.VideoCapture(0)
 frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-
+sum = 0
+counter = 0
 while(cap.isOpened()):
     ret, frame = cap.read()
 
@@ -24,12 +25,13 @@ while(cap.isOpened()):
         print(NumberOfPixels_x, NumberOfPixels_y)
         cX = np.average(pixels[1])
         cY = np.average(pixels[0])
-        
+        sum = sum + NumberOfPixels_x
+        counter = counter + 1 
         # cX cY -> NaN
         cv2.circle(canny_output, (int(cX),int(cY)), 3, (255,255,255), thickness=10, lineType=8, shift=0)
         # Show the frame
         cv2.imshow("contours", canny_output)
-
+        print(sum/counter)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             print('Video stream has been terminated.')
             break
