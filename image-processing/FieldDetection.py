@@ -19,6 +19,7 @@ while(cap.isOpened()):
         canny_output = cv2.Canny(mask, 10, 10, 20)
         # Find the center
         pixels = np.where(canny_output == 255)
+        NumberOfPixels = len(pixels)
         cX = np.average(pixels[1])
         cY = np.average(pixels[0])
         
