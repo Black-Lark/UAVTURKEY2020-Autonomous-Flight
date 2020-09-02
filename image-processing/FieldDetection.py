@@ -7,7 +7,6 @@ frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 
 while(cap.isOpened()):
     ret, frame = cap.read()
-    #frame = cv2.flip(frame,0)
     if ret == True:
         # Filter red color
         # frame = cv2.bilateralFilter(frame,9,75,75)
@@ -37,9 +36,9 @@ while(cap.isOpened()):
         # cX cY -> NaN
         cv2.circle(canny_output, (int(cX),int(cY)), 3, (255,255,255), thickness=10, lineType=8, shift=0)
         # Show the frame
-        #cv2.imshow("contours", canny_output)
+        cv2.imshow("contours", canny_output)
         cv2.imshow("mask", mask)
-        cv2.imshow("frame",frame)
+        #cv2.imshow("frame",frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             print('Video stream has been terminated.')
             break
