@@ -7,7 +7,7 @@ frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 
 while(cap.isOpened()):
     ret, frame = cap.read()
-
+    frame = cv2.flip(frame,1)
     if ret == True:
         # Filter red color
         # frame = cv2.bilateralFilter(frame,9,75,75)
