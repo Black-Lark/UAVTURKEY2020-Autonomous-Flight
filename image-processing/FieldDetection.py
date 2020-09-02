@@ -17,7 +17,9 @@ while(cap.isOpened()):
         mask = mask1 + mask2
         white_pixels = np.where(mask==255)
         print(len(white_pixels[1]))
-        print(len(white_pixels[0]))
+
+        AreaRatio=len(white_pixels[1])/(640*480)
+        
         # Edge detection
         canny_output = cv2.Canny(mask, 10, 10, 20)
         # Find the center
