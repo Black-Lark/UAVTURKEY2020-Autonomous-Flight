@@ -110,7 +110,7 @@ def condition_yaw(heading, relative=False):
     
 while True:
     ret, frame = cap.read()
-    frame = cv2.flip(frame,1)
+    #frame = cv2.flip(frame,1)
     if ret == True:
         # Filter red color
         # frame = cv2.bilateralFilter(frame,9,75,75)
