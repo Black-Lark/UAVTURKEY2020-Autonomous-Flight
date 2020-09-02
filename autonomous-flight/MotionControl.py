@@ -4,7 +4,7 @@ from pymavlink import mavutil
 from dronekit import connect, VehicleMode, LocationGlobalRelative,Vehicle, LocationGlobal
 import time
 import math
-vehicle = connect("tcp:127.0.0.1:5762", wait_ready=True)
+vehicle = connect("udp:192.168.137.103:14550", wait_ready=True)
 
 cap = cv2.VideoCapture(0)
 
