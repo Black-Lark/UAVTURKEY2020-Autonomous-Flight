@@ -15,6 +15,8 @@ while(cap.isOpened()):
         mask1 = cv2.inRange(frame_hsv, (0, 70, 50), (10, 255, 255))
         mask2 = cv2.inRange(frame_hsv, (170, 70, 50), (180, 255, 255))
         mask = mask1 + mask2
+        #white_pixels = np.where(mask==255)
+
         # Edge detection
         canny_output = cv2.Canny(mask, 10, 10, 20)
         # Find the center
@@ -27,7 +29,7 @@ while(cap.isOpened()):
        
         Diameter = abs(pixel_max-pixel_min)
         Diameter_x = abs(pixel_max_x - pixel_min_x)
-        print(Diameter,Diameter_x)
+        print(Diameter, Diameter_x)
         cX = np.average(pixels[1])
         cY = np.average(pixels[0])
 
@@ -35,6 +37,7 @@ while(cap.isOpened()):
         cv2.circle(canny_output, (int(cX),int(cY)), 3, (255,255,255), thickness=10, lineType=8, shift=0)
         # Show the frame
         cv2.imshow("contours", canny_output)
+        cv2.imshow("mask", mask)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             print('Video stream has been terminated.')
             break
