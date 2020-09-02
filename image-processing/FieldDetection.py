@@ -38,6 +38,7 @@ while(cap.isOpened()):
         # Show the frame
         cv2.imshow("contours", canny_output)
         cv2.imshow("mask", mask)
+        cv2.imshow("frame", frame)
         #cv2.imshow("frame",frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             print('Video stream has been terminated.')
