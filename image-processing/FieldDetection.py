@@ -15,8 +15,8 @@ while(cap.isOpened()):
         mask1 = cv2.inRange(frame_hsv, (0, 70, 50), (10, 255, 255))
         mask2 = cv2.inRange(frame_hsv, (170, 70, 50), (180, 255, 255))
         mask = mask1 + mask2
-        #white_pixels = np.where(mask==255)
-
+        white_pixels = len(np.where(mask==255))
+        print(white_pixels)
         # Edge detection
         canny_output = cv2.Canny(mask, 10, 10, 20)
         # Find the center
@@ -29,7 +29,7 @@ while(cap.isOpened()):
        
         Diameter = abs(pixel_max-pixel_min)
         Diameter_x = abs(pixel_max_x - pixel_min_x)
-        print(Diameter, Diameter_x)
+        #print(Diameter, Diameter_x)
         cX = np.average(pixels[1])
         cY = np.average(pixels[0])
 
