@@ -5,7 +5,7 @@ cap = cv2.VideoCapture(0)
 frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
-out = cv2.VideoWriter('recording_test1.avi',fourcc, 30.0, (640,480), False)
+out = cv2.VideoWriter('recording_test1.avi',fourcc, 30.0, (640,480))
 while(cap.isOpened()):
     ret, frame = cap.read()
     frame = cv2.flip(frame,1)
@@ -26,7 +26,7 @@ while(cap.isOpened()):
         # cX cY -> NaN
         cv2.circle(canny_output, (int(cX),int(cY)), 3, (255,255,255), thickness=10, lineType=8, shift=0)
         # Show the frame
-        out.write(canny_output)
+        out.write(frame)
         cv2.imshow("contours", canny_output)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
