@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-cap = cv2.VideoCapture('iki-üç.avi')
+cap = cv2.VideoCapture('C:/Users/thosl/Desktop/Drone/iki-üç.mp4')
 frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 
@@ -15,44 +15,30 @@ while(cap.isOpened()):
         mask2 = cv2.inRange(frame_hsv, (170, 70, 50), (180, 255, 255))
         mask = mask1 + mask2
         white_pixels = np.where(mask==255)
-        av_white_pixel_x = np.average(white_pixels[1])
-        av_white_pixel_y = np.average(white_pixels[0])
+        cX = np.average(white_pixels[1])
+        cY = np.average(white_pixels[0])
         
-        # Noise elimination
-        if len(white_pixels[0]) > 250:
+        # Small noise elimination
+        if len(white_pixels[0]) > 5000:
             # Object location detection
-            if (220 < av_white_pixel_y < 350):
-                # Edge detection
-                canny_output = cv2.Canny(mask, 10, 10, 20)
-                # Find the center
-                pixels = np.where(canny_output == 255)
-                av_pixels_x = np.average(white_pixels[1])
-                av_pixels_y = np.average(white_pixels[0])
+            if (220 < cY < 350):
+                img = np.zeros((480,640,1),np.uint8)    
+                cv2.circle(img, (int(cX),int(cY)), 85, (255,255,255), thickness=-1, lineType=8, shift=0)
+                intersection = cv2.bitwise_and(img,mask)
+                intersection_length = np.where(intersection==255)
 
-                if (220 < av_pixels_y < 350) and len(pixels[0] > 250):
-
-                    pixel_max = max(pixels[0])
-                    pixel_min = min(pixels[0])
-                
-                    pixel_max_x = max(pixels[1])
-                    pixel_min_x = min(pixels[1])
-                
-                    Diameter = abs(pixel_max-pixel_min)
-                    Diameter_x = abs(pixel_max_x - pixel_min_x)
-                    #print(Diameter, Diameter_x)
-                    cX = np.average(pixels[1])
-                    cY = np.average(pixels[0])
-
-                    # cX cY -> NaN
-                    cv2.circle(frame, (int(cX),int(cY)), 3, (255,255,255), thickness=10, lineType=8, shift=0)
-            
+                print(len(intersection_length[0]))
+                # Grande noise elimination
+                if len(intersection_length[0]) > 5000:
                     # Show the frame
-                    cv2.imshow("contours", canny_output)
                     cv2.imshow("mask", mask)
-                
+                    cv2.imshow("black", img)
+                    cv2.imshow("intersection", intersection)
+                    cv2.imwrite("test.png",intersection)
+                    break
+                    
         # Show the frame        
         cv2.imshow("frame", frame)
-        #cv2.imshow("frame",frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             print('Video stream has been terminated.')
             break
