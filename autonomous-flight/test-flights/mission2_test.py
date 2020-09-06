@@ -4,9 +4,15 @@ import cv2
 from pymavlink import mavutil
 from dronekit import connect, VehicleMode, LocationGlobalRelative,Vehicle, LocationGlobal, Command
 import time
+from time import gmtime, strftime
 
-vehicle = connect("tcp:127.0.0.1:5762", wait_ready=True)
+# vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
+vehicle = connect("tcp:127.0.0.1:5762", wait_ready=True, baud=921000)
 cap = cv2.VideoCapture(0)
+fourcc = cv2.VideoWriter_fourcc(*'XVID')
+file_name = strftime("%Y-%m-%d_%H-%M-%S", gmtime()) + ".avi"
+out = cv2.VideoWriter(file_name,fourcc, 30, (640,480))
+print(file_name)
 
 def arm_and_takeoff(aTargetAltitude):
     print("Basic pre-arm checks")
@@ -101,10 +107,11 @@ while vehicle.commands.next <=11:
     
     nextwaypoint=vehicle.commands.next
     if vehicle.commands.next == 3:
-      
         ret, frame = cap.read()
+        
         if ret == True:
-
+            # Save the video
+            out.write(frame)
             # Filter red color
             frame = cv2.bilateralFilter(frame,9,75,75)
             frame_hsv = cv2.cvtColor(frame,cv2.COLOR_BGR2HSV)

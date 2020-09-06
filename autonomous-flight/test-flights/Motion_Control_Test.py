@@ -105,7 +105,7 @@ while True:
 
                 x = cX-320
                 y = 240-cY
-                RSquare = math.sqrt(abs(x)**2 + abs(y)**2)
+                RSquare = math.sqrt(abs(x)*abs(x) + abs(y)*abs(y))
                 degree = math.degrees(math.atan(y/x))
                 print(RSquare)
                 if x <0 and y<0: # 
@@ -122,9 +122,10 @@ while True:
 
                 east = math.sin(math.radians(degree))
                 north = math.cos(math.radians(degree))
+
                 if RSquare > 20:
                     goto(north,east,vehicle.location.global_relative_frame.alt) # field = True #Field is centered. Ready to drop the water
-                elif vehicle.location.global_relative_frame.alt>=0.25 and RSquare < 50:
+                elif vehicle.location.global_relative_frame.alt>= 1 and RSquare < 50:
                     goto(0,0,(vehicle.location.global_relative_frame.alt-0.5))
                     print("landing")     
 
