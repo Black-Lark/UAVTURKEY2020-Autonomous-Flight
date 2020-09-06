@@ -150,6 +150,8 @@ while vehicle.commands.next <=11:
             print('Video stream has been corrupted.')
             break
 
+cap.release()
+cv2.destroyAllWindows()
 if r_square:
     index = r_square.index(min(r_square))
     finalpos = pos[index]
