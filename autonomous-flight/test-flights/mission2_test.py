@@ -5,7 +5,7 @@ from pymavlink import mavutil
 from dronekit import connect, VehicleMode, LocationGlobalRelative,Vehicle, LocationGlobal, Command
 import time
 
-vehicle = connect("tcp:127.0.0.1:5762", wait_ready=True)
+vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
 cap = cv2.VideoCapture(0)
 
 def arm_and_takeoff(aTargetAltitude):
