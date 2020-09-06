@@ -69,11 +69,11 @@ def second_tour(lat,lon):
     vehicle.flush() 
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_TAKEOFF, 0, 0, 0, 0, 0, 0, 0, 0, 5))
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6941650 ,35.4606727 , 5))#1
-    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6942204 ,35.4605145 , 3))#2 Su alma alanı
-    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6942204 ,35.4605145 , 0.25))#2 Su alma alanı
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 2, 0, 0, 0, 38.6942204 ,35.4605145 , 5))#2 Su alma alanı
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 3, 0, 0, 0, 38.6942204 ,35.4605145 , 0.25))#2 Su alma alanı
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6942204 ,35.4605145 , 5))#2 Su alma alanı
-    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, lat ,lon , 5))#3 Su bırakma alanı
-    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, lat ,lon , 0.25))#3 Su bırakma alanı
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 2, 0, 0, 0, lat ,lon , 5))#3 Su bırakma alanı
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 3, 0, 0, 0, lat ,lon , 0.25))#3 Su bırakma alanı
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6942761, 35.4603562 , 5))#3
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6942703, 35.4603022 , 5))#4
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6942441, 35.4602586 , 5))#5
@@ -88,22 +88,25 @@ def second_tour(lat,lon):
     
     cmds.upload()
 
-
 arm_and_takeoff(5)
 first_tour()
 vehicle.mode = VehicleMode("AUTO")
 vehicle.commands.next=0
+
 # Detect coordinates of the field
 lat = 0
 lon = 0
-frame_pos = []
+r_square = []
+pos = []
+
 while vehicle.commands.next <=12:
+    
     nextwaypoint=vehicle.commands.next
-
     if vehicle.commands.next == 3:
+      
         ret, frame = cap.read()
-
         if ret == True:
+
             # Filter red color
             frame = cv2.bilateralFilter(frame,9,75,75)
             frame_hsv = cv2.cvtColor(frame,cv2.COLOR_BGR2HSV)
@@ -113,9 +116,11 @@ while vehicle.commands.next <=12:
             white_pixels = np.where(mask==255)
             cX = np.average(white_pixels[1])
             cY = np.average(white_pixels[0])
-            
+            r = cX*cX + cY*cY
+
             # Small noise elimination
             if len(white_pixels[0]) > 5000:
+
                 # Object location detection
                 if (220 < cY < 350):
                     img = np.zeros((480,640,1),np.uint8)    
@@ -126,8 +131,8 @@ while vehicle.commands.next <=12:
                     print(len(intersection_length[0]))
                     # Grande noise elimination
                     if len(intersection_length[0]) > 5000:
+                        
                         # Show the frame
-
                         cv2.imshow("mask", mask)
                         cv2.imshow("black", img)
                         cv2.imshow("intersection", intersection)
@@ -135,7 +140,9 @@ while vehicle.commands.next <=12:
                         print("Field Detected")
                         lat = vehicle.location.global_relative_frame.lat
                         lon = vehicle.location.global_relative_frame.lon
-                        frame_pos.append(lat,lon)
+                        pos.append([lat,lon])
+                        r_square.append(r)
+            
             # Show the frame        
             cv2.imshow("frame", frame)
             if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -145,9 +152,18 @@ while vehicle.commands.next <=12:
         else:
             print('Video stream has been corrupted.')
             break
-second_tour(lat,lon)
+vehicle.mode = VehicleMode("GUIDED")
+time.sleep(1)
+vehicle.mode = VehicleMode("AUTO")
+
+index = r_square.index(min(r_square))
+finalpos = pos[index]
+print(finalpos[0], finalpos[1])
+second_tour(finalpos[0],finalpos[1])
 vehicle.commands.next=0
 nextwaypoint=0
+
 while vehicle.commands.next <=17:
     nextwaypoint=vehicle.commands.next
+
 
