@@ -7,7 +7,7 @@ import time
 from time import gmtime, strftime
 
 # vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
-vehicle = connect("tcp:127.0.0.1:5762", wait_ready=True, baud=921000)
+vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
 cap = cv2.VideoCapture(0)
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
 file_name = strftime("%Y-%m-%d_%H-%M-%S", gmtime()) + ".avi"
