@@ -66,16 +66,15 @@ def arm_and_takeoff(aTargetAltitude):
         time.sleep(1)
 
 arm_and_takeoff(5)
-cap = cv2.VideoCapture("iki-üç.mp4")
+cap = cv2.VideoCapture(0)
 degree = 1
 east = 0
 north = 0
 frame_pos = []
-while True:
-
-    vehicle.mode = VehicleMode("GUIDED")  
+vehicle.mode = VehicleMode("GUIDED")
+while True: 
     ret, frame = cap.read()
-    frame = cv2.flip(frame,1)
+    #frame = cv2.flip(frame,1)
     if ret == True:
         # Filter red color
         frame = cv2.bilateralFilter(frame,9,75,75)
