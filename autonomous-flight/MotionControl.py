@@ -158,8 +158,8 @@ while True:
         northArray.append(north)
         eastArray.append(east)
         
-        northavg = math.average(northArray)
-        eastavg = math.average(eastArray)
+        northavg = sum(northArray)/len(northArray)
+        eastavg = sum(eastArray)/len(eastArray)
         
         goto(northavg,eastavg)
             
