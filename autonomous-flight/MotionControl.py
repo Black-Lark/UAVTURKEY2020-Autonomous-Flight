@@ -107,7 +107,9 @@ def condition_yaw(heading, relative=False):
     # send command to vehicle
     vehicle.send_mavlink(msg)
 
-    
+northArray = []
+eastArray = [] 
+
 while True:
     ret, frame = cap.read()
     #frame = cv2.flip(frame,-1)
