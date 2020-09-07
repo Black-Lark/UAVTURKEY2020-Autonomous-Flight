@@ -78,7 +78,7 @@ def second_tour(lat,lon):
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 2, 0, 0, 0, 38.6942344674483 ,35.4605628736317 , 5))#2 Su alma alanı
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 2, 0, 0, 0, lat ,lon , 5))#3 Su bırakma alanı
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 3, 0, 0, 0, lat ,lon , 1))#3 Su bırakma alanı
-    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6943038, 35,4603917 , 5))#3
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6943038, 35.4603917 , 5))#3
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6942703, 35.4603022 , 5))#4
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6942441, 35.4602586 , 5))#5
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6942012, 35.4602462 , 5))#6
@@ -121,7 +121,9 @@ while vehicle.commands.next <=11:
             white_pixels = np.where(mask==255)
             cX = np.average(white_pixels[1])
             cY = np.average(white_pixels[0])
-            r = cX*cX + cY*cY # need to be changed
+            rX = cX - 320
+            rY = 240 - cY
+            r = rX*rX + rY*rY # need to be changed
 
             # Small noise elimination
             if len(white_pixels[0]) > 4000:
@@ -159,7 +161,8 @@ while vehicle.commands.next <=11:
 
 cap.release()
 cv2.destroyAllWindows()
-if r_square:
+
+if r_square is not None:
     index = r_square.index(min(r_square))
     finalpos = pos[index]
     print(finalpos[0], finalpos[1])
