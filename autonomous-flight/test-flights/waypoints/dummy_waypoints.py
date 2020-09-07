@@ -53,12 +53,32 @@ def first_tour():
     print(" Upload new commands to vehicle")
     cmds.upload()
 
+def second_tour(): 
+    cmds = vehicle.commands
+    cmds.clear()
+    vehicle.flush()
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6940306 ,35.4605144 , 5))#2
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6942243 ,35.4604755 , 5))#3
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6941650 ,35.4606727 , 5))#4
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6941650 ,35.4606727 , 5))#5
+
+    print(" Upload new commands to vehicle")
+    cmds.upload()
+
+
+
 
 arm_and_takeoff(5)
 first_tour()
 vehicle.mode = VehicleMode("AUTO")
 vehicle.commands.next=0
 
+while vehicle.commands.next <=3:
+    nextwaypoint=vehicle.commands.next
+
+second_tour()
+vehicle.commands.next=0
+nextwaypoint=0
 while vehicle.commands.next <=3:
     nextwaypoint=vehicle.commands.next
 print("Out")
