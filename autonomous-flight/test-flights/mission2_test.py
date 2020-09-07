@@ -121,12 +121,10 @@ while vehicle.commands.next <=11:
             white_pixels = np.where(mask==255)
             cX = np.average(white_pixels[1])
             cY = np.average(white_pixels[0])
-            rX = cX - 320
-            rY = 240 - cY
-            r = rX*rX + rY*rY # need to be changed
+            r = cX*cX + cY*cY # need to be changed
 
             # Small noise elimination
-            if len(white_pixels[0]) > 4000:
+            if len(white_pixels[0]) > 5000:
 
                 # Object location detection
                 if (220 < cY < 350):
@@ -137,12 +135,8 @@ while vehicle.commands.next <=11:
 
                     print(len(intersection_length[0]))
                     # Grande noise elimination
-                    if len(intersection_length[0]) > 4000:
+                    if len(intersection_length[0]) > 5000:
                         # Show the frame
-                        cv2.imshow("mask", mask)
-                        cv2.imshow("black", img)
-                        cv2.imshow("intersection", intersection)
-                        
                         print("Field Detected")
                         lat = vehicle.location.global_relative_frame.lat
                         lon = vehicle.location.global_relative_frame.lon
@@ -161,8 +155,7 @@ while vehicle.commands.next <=11:
 
 cap.release()
 cv2.destroyAllWindows()
-
-if r_square is not None:
+if r_square:
     index = r_square.index(min(r_square))
     finalpos = pos[index]
     print(finalpos[0], finalpos[1])
