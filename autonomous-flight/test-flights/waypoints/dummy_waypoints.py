@@ -58,7 +58,7 @@ def second_tour():
     cmds.clear()
     vehicle.flush()
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6940306 ,35.4605144 , 5))#2
-    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6942243 ,35.4604755 , 5))#3
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6942473 ,35.4605131 , 5))#3
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6941650 ,35.4606727 , 5))#4
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6941650 ,35.4606727 , 5))#5
 
@@ -81,10 +81,11 @@ vehicle.commands.next=0
 nextwaypoint=0
 vehicle.mode=VehicleMode("GUIDED")
 time.sleep(1)
-vehicle.mode=VehicleMode("GUIDED")
+vehicle.mode=VehicleMode("AUTO")
 
 
 while vehicle.commands.next <=3:
     nextwaypoint=vehicle.commands.next
+    print("second_tour")
 print("Out")
 vehicle.mode= VehicleMode("LAND")
