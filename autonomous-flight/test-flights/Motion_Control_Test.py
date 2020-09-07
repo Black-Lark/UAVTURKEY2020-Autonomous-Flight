@@ -80,7 +80,7 @@ while True:
         frame = cv2.bilateralFilter(frame,9,75,75)
         frame_hsv = cv2.cvtColor(frame,cv2.COLOR_BGR2HSV)
         mask1 = cv2.inRange(frame_hsv, (0, 70, 50), (10, 255, 255))
-        mask2 = cv2.inRange(frame_hsv, (170, 70, 50), (180, 255, 255))
+        mask2 = cv2.inRange(frame_hsv, (165, 70, 50), (180, 255, 255))
         mask = mask1 + mask2
         white_pixels = np.where(mask==255)
         cX = np.average(white_pixels[1])
@@ -125,8 +125,8 @@ while True:
 
                 if RSquare > 20:
                     goto(north,east,vehicle.location.global_relative_frame.alt) # field = True #Field is centered. Ready to drop the water
-                elif vehicle.location.global_relative_frame.alt>= 1 and RSquare < 50:
-                    goto(0,0,(vehicle.location.global_relative_frame.alt-0.5))
+                elif vehicle.location.global_relative_frame.alt>= 1 and RSquare < 20:
+                    goto(0,0,(vehicle.location.global_relative_frame.alt-0.25))
                     print("landing")     
 
     if cv2.waitKey(240) & 0xFF == ord("q"):
