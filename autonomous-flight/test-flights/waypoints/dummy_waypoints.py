@@ -79,6 +79,11 @@ while vehicle.commands.next <=2:
 second_tour()
 vehicle.commands.next=0
 nextwaypoint=0
+vehicle.mode=VehicleMode("GUIDED")
+time.sleep(1)
+vehicle.mode=VehicleMode("GUIDED")
+
+
 while vehicle.commands.next <=3:
     nextwaypoint=vehicle.commands.next
 print("Out")
