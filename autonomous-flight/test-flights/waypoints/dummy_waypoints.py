@@ -80,12 +80,11 @@ second_tour()
 vehicle.commands.next=0
 nextwaypoint=0
 vehicle.mode=VehicleMode("GUIDED")
-time.sleep(1)
 vehicle.mode=VehicleMode("AUTO")
-
+print(vehicle.mode)
 
 while vehicle.commands.next <=3:
     nextwaypoint=vehicle.commands.next
-    print("second_tour")
+    
 print("Out")
 vehicle.mode= VehicleMode("LAND")
