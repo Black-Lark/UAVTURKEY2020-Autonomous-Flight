@@ -126,6 +126,8 @@ while True:
                 y = 240-cY
                 RSquare = math.sqrt(abs(x)*abs(x) + abs(y)*abs(y))
                 degree = math.degrees(math.atan(y/x))
+                east = math.cos(math.radians(degree))
+                north = math.sin(math.radians(degree))
                 print(RSquare)
                 if x <0 and y<0: # 
                     degree = 270 - degree
@@ -139,8 +141,7 @@ while True:
                 elif x>0 and y >0:
                     degree = 90-degree
 
-                east = math.cos(math.radians(degree))
-                north = math.sin(math.radians(degree))
+
                 print(north,east)
                 if RSquare > 20:
                     goto(north,east,vehicle.location.global_relative_frame.alt) # field = True #Field is centered. Ready to drop the water
