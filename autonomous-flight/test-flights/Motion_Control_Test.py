@@ -27,7 +27,7 @@ def get_location_metres(original_location, dNorth, dEast):
     else:
         raise Exception("Invalid Location object passed")
         
-    return targetlocation;
+    return targetlocation
 
 def get_distance_metres(aLocation1, aLocation2):
 
@@ -139,15 +139,15 @@ while True:
                 elif x>0 and y >0:
                     degree = 90-degree
 
-                east = math.sin(math.radians(degree))
-                north = math.cos(math.radians(degree))
-
+                east = math.cos(math.radians(degree))
+                north = math.sin(math.radians(degree))
+                print(north,east)
                 if RSquare > 20:
-                    #goto(north,east,vehicle.location.global_relative_frame.alt) # field = True #Field is centered. Ready to drop the water
+                    goto(north,east,vehicle.location.global_relative_frame.alt) # field = True #Field is centered. Ready to drop the water
                     condition_yaw(degree)
                     
                 elif vehicle.location.global_relative_frame.alt>= 1 and RSquare < 20:
-                    #goto(0,0,(vehicle.location.global_relative_frame.alt-0.25))
+                    goto(0,0,(vehicle.location.global_relative_frame.alt-0.25))
                     print("landing")     
 
     if cv2.waitKey(240) & 0xFF == ord("q"):
