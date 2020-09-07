@@ -107,7 +107,9 @@ def condition_yaw(heading, relative=False):
     # send command to vehicle
     vehicle.send_mavlink(msg)
 
-    
+northArray = []
+eastArray = [] 
+
 while True:
     ret, frame = cap.read()
     #frame = cv2.flip(frame,-1)
@@ -153,7 +155,13 @@ while True:
         east = math.sin(math.radians(degree))*RSquare
         north = math.cos(math.radians(degree))*RSquare
         
-        goto(north,east)
+        northArray.append(north)
+        eastArray.append(east)
+        
+        northavg = math.average(northArray)
+        eastavg = math.average(eastArray)
+        
+        goto(northavg,eastavg)
             
         condition_yaw(degree, False)     
         cv2.imshow("contours", canny_output)
