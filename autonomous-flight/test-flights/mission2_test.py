@@ -65,7 +65,7 @@ def second_tour(lat,lon):
     cmds = vehicle.commands
     cmds.clear()
     vehicle.flush() 
-    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_TAKEOFF, 0, 0, 0, 0, 0, 0, 0, 0, 5))
+    #cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_TAKEOFF, 0, 0, 0, 0, 0, 0, 0, 0, 5))
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, 38.6942368 ,35.4605909 , 5))#1 Su alma alanı
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 3, 0, 0, 0, 38.6942368 ,35.4605909 , 1))#1 Su alma alanı
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, 38.6942368 ,35.4605909 , 5))#1 Su alma alanı
@@ -145,9 +145,7 @@ while vehicle.commands.next <=5:
 cap.release()
 cv2.destroyAllWindows()
 print("length of r square =", len(r_square))
-vehicle.mode = VehicleMode("GUIDED")
-time.sleep(1)
-vehicle.mode = VehicleMode("AUTO")
+
 if r_square is not None:
     index = r_square.index(min(r_square))
     finalpos = pos[index]
@@ -155,8 +153,10 @@ if r_square is not None:
     second_tour(finalpos[0],finalpos[1])
     vehicle.commands.next=0
     nextwaypoint=0
-
-    while vehicle.commands.next <=9:
+    vehicle.mode=VehicleMode("GUIDED")
+    vehicle.mode=VehicleMode("AUTO")
+    print(vehicle.mode)
+    while vehicle.commands.next <=11:
         nextwaypoint=vehicle.commands.next
 
 print("Out")
