@@ -143,11 +143,11 @@ while True:
                 north = math.cos(math.radians(degree))
 
                 if RSquare > 20:
-                    goto(north,east,vehicle.location.global_relative_frame.alt) # field = True #Field is centered. Ready to drop the water
+                    #goto(north,east,vehicle.location.global_relative_frame.alt) # field = True #Field is centered. Ready to drop the water
                     condition_yaw(degree)
-                    break;
+                    
                 elif vehicle.location.global_relative_frame.alt>= 1 and RSquare < 20:
-                    goto(0,0,(vehicle.location.global_relative_frame.alt-0.25))
+                    #goto(0,0,(vehicle.location.global_relative_frame.alt-0.25))
                     print("landing")     
 
     if cv2.waitKey(240) & 0xFF == ord("q"):
