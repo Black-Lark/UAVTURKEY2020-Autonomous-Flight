@@ -128,7 +128,7 @@ while True:
                 degree = math.degrees(math.atan(y/x))
                 east = math.cos(math.radians(degree))
                 north = math.sin(math.radians(degree))
-                print(RSquare)
+                print(degree)
                 if x <0 and y<0: # 
                     degree = 270 - degree
 
@@ -141,8 +141,7 @@ while True:
                 elif x>0 and y >0:
                     degree = 90-degree
 
-
-                print(north,east)
+                #print(north,east)
                 if RSquare > 20:
                     goto(north,east,vehicle.location.global_relative_frame.alt) # field = True #Field is centered. Ready to drop the water
                     condition_yaw(degree)
