@@ -155,13 +155,7 @@ while True:
         east = math.sin(math.radians(degree))*RSquare
         north = math.cos(math.radians(degree))*RSquare
         
-        northArray.append(north)
-        eastArray.append(east)
-        
-        northavg = sum(northArray)/len(northArray)
-        eastavg = sum(eastArray)/len(eastArray)
-        
-        goto(northavg,eastavg)
+        goto(north,east)
             
         condition_yaw(degree, False)     
         cv2.imshow("contours", canny_output)
