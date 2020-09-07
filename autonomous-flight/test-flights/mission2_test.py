@@ -7,7 +7,7 @@ import time
 from time import gmtime, strftime
 
 # vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
-vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
+vehicle = connect("udp:192.168.137.103", wait_ready=True)
 cap = cv2.VideoCapture(0)
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
 file_name = strftime("%Y-%m-%d_%H-%M-%S", gmtime()) + ".avi"
@@ -124,10 +124,10 @@ while vehicle.commands.next <=11:
             r = cX*cX + cY*cY
 
             # Small noise elimination
-            if len(white_pixels[0]) > 5000:
+            if len(white_pixels[0]) > 3000:
 
                 # Object location detection
-                if (220 < cY < 350):
+                if (150 < cY < 380):
                     img = np.zeros((480,640,1),np.uint8)    
                     cv2.circle(img, (int(cX),int(cY)), 85, (255,255,255), thickness=-1, lineType=8, shift=0)
                     intersection = cv2.bitwise_and(img,mask)
@@ -135,7 +135,7 @@ while vehicle.commands.next <=11:
 
                     print(len(intersection_length[0]))
                     # Grande noise elimination
-                    if len(intersection_length[0]) > 5000:
+                    if len(intersection_length[0]) > 3000:
                         # Show the frame
                         cv2.imshow("mask", mask)
                         cv2.imshow("black", img)
