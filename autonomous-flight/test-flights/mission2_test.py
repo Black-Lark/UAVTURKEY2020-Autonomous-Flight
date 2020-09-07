@@ -139,10 +139,6 @@ while vehicle.commands.next <=11:
                     # Grande noise elimination
                     if len(intersection_length[0]) > 4000:
                         # Show the frame
-                        cv2.imshow("mask", mask)
-                        cv2.imshow("black", img)
-                        cv2.imshow("intersection", intersection)
-                        
                         print("Field Detected")
                         lat = vehicle.location.global_relative_frame.lat
                         lon = vehicle.location.global_relative_frame.lon
@@ -161,7 +157,6 @@ while vehicle.commands.next <=11:
 
 cap.release()
 cv2.destroyAllWindows()
-
 if r_square is not None:
     index = r_square.index(min(r_square))
     finalpos = pos[index]
