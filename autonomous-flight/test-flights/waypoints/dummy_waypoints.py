@@ -59,7 +59,7 @@ first_tour()
 vehicle.mode = VehicleMode("AUTO")
 vehicle.commands.next=0
 
-while vehicle.commands.next <=2:
+while vehicle.commands.next <=3:
     nextwaypoint=vehicle.commands.next
 print("Out")
 vehicle.mode= VehicleMode("LAND")
