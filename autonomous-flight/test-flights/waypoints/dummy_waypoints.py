@@ -73,7 +73,7 @@ first_tour()
 vehicle.mode = VehicleMode("AUTO")
 vehicle.commands.next=0
 
-while vehicle.commands.next <=3:
+while vehicle.commands.next <=2:
     nextwaypoint=vehicle.commands.next
 
 second_tour()
