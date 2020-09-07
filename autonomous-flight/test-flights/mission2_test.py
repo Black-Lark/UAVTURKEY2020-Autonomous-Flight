@@ -124,7 +124,7 @@ while vehicle.commands.next <=11:
             r = cX*cX + cY*cY # need to be changed
 
             # Small noise elimination
-            if len(white_pixels[0]) > 5000:
+            if len(white_pixels[0]) > 4000:
 
                 # Object location detection
                 if (220 < cY < 350):
@@ -135,7 +135,7 @@ while vehicle.commands.next <=11:
 
                     print(len(intersection_length[0]))
                     # Grande noise elimination
-                    if len(intersection_length[0]) > 5000:
+                    if len(intersection_length[0]) > 4000:
                         # Show the frame
                         cv2.imshow("mask", mask)
                         cv2.imshow("black", img)
