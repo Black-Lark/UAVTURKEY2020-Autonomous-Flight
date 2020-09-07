@@ -6,8 +6,8 @@ from dronekit import connect, VehicleMode, LocationGlobalRelative,Vehicle, Locat
 import time
 from time import gmtime, strftime
 
-# vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
-vehicle = connect("tcp:127.0.0.1:5762", wait_ready=True)
+vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
+#vehicle = connect("tcp:127.0.0.1:5762", wait_ready=True)
 cap = cv2.VideoCapture(0)
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
 file_name = strftime("%Y-%m-%d_%H-%M-%S", gmtime()) + ".avi"
@@ -66,6 +66,7 @@ def second_tour(lat,lon):
     cmds.clear()
     vehicle.flush() 
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_TAKEOFF, 0, 0, 0, 0, 0, 0, 0, 0, 5))
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6941650 ,35.4606727 , 5))#0 Starting point
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, 38.6941981 ,35.4605775 , 5))#1 Su alma alanı
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 3, 0, 0, 0, 38.6941981 ,35.4605775 , 1))#1 Su alma alanı
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, 38.6941981 ,35.4605775 , 5))#1 Su alma alanı
@@ -153,7 +154,7 @@ if r_square is not None:
     vehicle.commands.next=0
     nextwaypoint=0
 
-    while vehicle.commands.next <=9:
+    while vehicle.commands.next <=10:
         nextwaypoint=vehicle.commands.next
 
 print("Out")
