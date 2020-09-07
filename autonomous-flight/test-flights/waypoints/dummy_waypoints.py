@@ -83,8 +83,8 @@ vehicle.mode=VehicleMode("GUIDED")
 vehicle.mode=VehicleMode("AUTO")
 print(vehicle.mode)
 
-while vehicle.commands.next <=3:
+while vehicle.commands.next <=4:
     nextwaypoint=vehicle.commands.next
-    
+
 print("Out")
 vehicle.mode= VehicleMode("LAND")
