@@ -3,6 +3,7 @@ import numpy as np
 from time import gmtime, strftime
 from picamera import PiCamera
 from time import sleep
+
 dronecamera = PiCamera()
 dronecamera.start_recording('/home/pi/aaa.h.')
 cap = cv2.VideoCapture(0)
@@ -11,7 +12,7 @@ cap = cv2.VideoCapture(0)
 #out = cv2.VideoWriter(file_name,fourcc, 25, (640,480))
 #print(file_name)
 sleep(5)
-
+dronecamera.stop_recording()
 #out = cv2.VideoWriter(file_name,fourcc, 30, (640,480))
 while(cap.isOpened()):
     ret, frame = cap.read()
@@ -28,6 +29,6 @@ while(cap.isOpened()):
     else:
         print('Video stream has been corrupted.')
         break
-dronecamera.stop_recording()
+
 cap.release()
 cv2.destroyAllWindows()
