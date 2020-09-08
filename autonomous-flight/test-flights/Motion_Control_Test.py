@@ -45,7 +45,7 @@ def goto(dNorth, dEast, alt, gotoFunction=vehicle.simple_goto):
 
     while vehicle.mode.name=="GUIDED": #Stop action if we are no longer in guided mode.
         remainingDistance=get_distance_metres(vehicle.location.global_frame, targetLocation)
-        #print ("Distance to target: ", remainingDistance)
+        print ("Distance to target: ", remainingDistance)
         if remainingDistance<=targetDistance*0.8: #Just below target, in case of undershoot.
             print ("Reached target")
             break
@@ -164,20 +164,19 @@ while True:
                 elif x>0 and y >0:
                     degree = 90-degree
 
-                east = math.sin(math.radians(degree))/4
-                north = math.cos(math.radians(degree))/4
+                east = math.sin(math.radians(degree))/5
+                north = math.cos(math.radians(degree))/5
 
                 print("east= ",east,"north =",north,"degree= " ,degree)
-                if RSquare > 20:
+                if RSquare > 40:
                     goto(north,east,vehicle.location.global_relative_frame.alt) # field = True #Field is centered. Ready to drop the water
                     condition_yaw(degree)
 
-                elif RSquare < 20:
+                elif RSquare < 40 and vehicle.location.global_relative_frame.alt> 1:
                     goto(0,0,(vehicle.location.global_relative_frame.alt-0.25))
                     print("landing")
-                elif vehicle.location.global_relative_frame.alt<= 1:
-                    break         
+       
 
-    if cv2.waitKey(240) & 0xFF == ord("q"):
+    if cv2.waitKey(1) & 0xFF == ord("q"):
         break
 
