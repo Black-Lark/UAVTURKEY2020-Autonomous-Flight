@@ -110,7 +110,7 @@ frame_pos = []
 first_tour()
 vehicle.mode = VehicleMode("AUTO")
 vehicle.commands.next=0
-
+counter = 0
 while vehicle.commands.next <=1:
     
     nextwaypoint=vehicle.commands.next
@@ -152,6 +152,8 @@ while True:
                 y = 240-intersection_cY
                 RSquare = math.sqrt(abs(x)*abs(x) + abs(y)*abs(y))
                 degree = math.degrees(math.atan(y/x))
+                counter = counter +1
+                cv2.imwrite(str(counter) +".png",frame)
                 if x <0 and y<0: # 
                     degree = 270 - degree
 
@@ -169,6 +171,7 @@ while True:
                 print(east," , ",north)
                 if RSquare > 40:
                     condition_yaw(degree)
+                    time.sleep(1.5)
                     print("Yaw is set: ",degree)
                     #goto(north,east) # field = True #Field is centered. Ready to drop the water
                     print("point is reached")
