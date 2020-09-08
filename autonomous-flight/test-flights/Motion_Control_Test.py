@@ -12,7 +12,7 @@ vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
 cap = cv2.VideoCapture(0)
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
 file_name = strftime("%Y-%m-%d_%H-%M-%S", gmtime()) + ".avi"
-out = cv2.VideoWriter('/pi/home/file_name',fourcc, 25, (640,480))
+out = cv2.VideoWriter(file_name,fourcc, 25, (640,480))
 print(file_name)
 def get_location_metres(original_location, dNorth, dEast):
     
