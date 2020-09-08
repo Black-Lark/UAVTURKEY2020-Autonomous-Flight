@@ -17,7 +17,7 @@ while(cap.isOpened()):
         counter = counter +1
         cv2.imwrite(str(counter) +".png",frame)
         # Show the frame
-        out.write(frame)
+        #out.write(frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             print('Video stream has been terminated.')
             break
