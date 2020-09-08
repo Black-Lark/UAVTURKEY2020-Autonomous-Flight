@@ -6,7 +6,7 @@ from dronekit import connect, VehicleMode, LocationGlobalRelative,Vehicle, Locat
 import time
 import math
 
-vehicle = connect("udp:192.168.137.103:14550", wait_ready=True)
+vehicle = connect("tcp:127.0.0.1:5762", wait_ready=True)
 #vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
 
 def get_location_metres(original_location, dNorth, dEast):
@@ -40,8 +40,15 @@ def goto(dNorth, dEast, alt, gotoFunction=vehicle.simple_goto):
     currentLocation = vehicle.location.global_relative_frame
     currentLocation.alt = alt
     targetLocation = get_location_metres(currentLocation, dNorth, dEast)
-    #targetDistance = get_distance_metres(currentLocation, targetLocation)
+    targetDistance = get_distance_metres(currentLocation, targetLocation)
     gotoFunction(targetLocation)
+
+    while vehicle.mode.name=="GUIDED": #Stop action if we are no longer in guided mode.
+        remainingDistance=get_distance_metres(vehicle.location.global_frame, targetLocation)
+        #print ("Distance to target: ", remainingDistance)
+        if remainingDistance<=targetDistance*0.6: #Just below target, in case of undershoot.
+            print ("Reached target")
+            break
 
 def condition_yaw(heading, relative=False):
    
@@ -93,7 +100,7 @@ frame_pos = []
 vehicle.mode = VehicleMode("GUIDED")
 while True: 
     ret, frame = cap.read()
-    #frame = cv2.flip(frame,1)
+    frame = cv2.flip(frame,1)
     if ret == True:
         # Filter red color
         frame = cv2.bilateralFilter(frame,9,75,75)
@@ -117,18 +124,16 @@ while True:
             # Grande noise elimination
             if len(intersection_length[0]) > 5000:
                 # Show the frame
-
-                cv2.imshow("mask", mask)
-                cv2.imshow("black", img)
+                intersection_cX= np.average(intersection_length[1])
+                intersection_cY= np.average(intersection_length[0])
+                #cv2.imshow("mask", mask)
+                #cv2.imshow("black", img)
                 cv2.imshow("intersection", intersection)
 
-                x = cX-320
-                y = 240-cY
+                x = intersection_cX-320
+                y = 240-intersection_cY
                 RSquare = math.sqrt(abs(x)*abs(x) + abs(y)*abs(y))
                 degree = math.degrees(math.atan(y/x))
-                east = math.cos(math.radians(degree))
-                north = math.sin(math.radians(degree))
-                print(degree)
                 if x <0 and y<0: # 
                     degree = 270 - degree
 
@@ -141,14 +146,19 @@ while True:
                 elif x>0 and y >0:
                     degree = 90-degree
 
-                #print(north,east)
+                east = math.sin(math.radians(degree))/4
+                north = math.cos(math.radians(degree))/4
+
+                print("east= ",east,"north =",north,"degree= " ,degree)
                 if RSquare > 20:
                     goto(north,east,vehicle.location.global_relative_frame.alt) # field = True #Field is centered. Ready to drop the water
                     condition_yaw(degree)
-                    
-                elif vehicle.location.global_relative_frame.alt>= 1 and RSquare < 20:
+
+                elif RSquare < 20:
                     goto(0,0,(vehicle.location.global_relative_frame.alt-0.25))
-                    print("landing")     
+                    print("landing")
+                elif vehicle.location.global_relative_frame.alt<= 1:
+                    break         
 
     if cv2.waitKey(240) & 0xFF == ord("q"):
         break
