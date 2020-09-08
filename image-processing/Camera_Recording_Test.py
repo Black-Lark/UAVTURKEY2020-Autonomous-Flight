@@ -3,15 +3,15 @@ import numpy as np
 from time import gmtime, strftime
 from picamera import PiCamera
 from time import sleep
-
 dronecamera = PiCamera()
-dronecamera.start_recording('/home/pi/aa.h264')
+dronecamera.start_recording('/home/pi/aaa.h.')
 cap = cv2.VideoCapture(0)
 #fourcc = cv2.VideoWriter_fourcc(*'XVID')
 #file_name = strftime("%Y-%m-%d_%H-%M-%S", gmtime()) + ".avi"
 #out = cv2.VideoWriter(file_name,fourcc, 25, (640,480))
 #print(file_name)
-time.sleep(6)
+sleep(5)
+
 #out = cv2.VideoWriter(file_name,fourcc, 30, (640,480))
 while(cap.isOpened()):
     ret, frame = cap.read()
