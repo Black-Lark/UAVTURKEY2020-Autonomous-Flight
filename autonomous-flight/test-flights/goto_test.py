@@ -70,7 +70,7 @@ def goto(dNorth, dEast, alt, gotoFunction=vehicle.simple_goto):
     while vehicle.mode.name=="GUIDED": #Stop action if we are no longer in guided mode.
         remainingDistance=get_distance_metres(vehicle.location.global_frame, targetLocation)
         print ("Distance to target: ", remainingDistance)
-        if remainingDistance<=0.3: #Just below target, in case of undershoot.
+        if remainingDistance<=0.4: #Just below target, in case of undershoot.
             print ("Reached target")
             break
         time.sleep(2)
