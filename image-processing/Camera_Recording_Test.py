@@ -25,4 +25,5 @@ while(cap.isOpened()):
         print('Video stream has been corrupted.')
         break
 cap.release()
+out.release()
 cv2.destroyAllWindows()
