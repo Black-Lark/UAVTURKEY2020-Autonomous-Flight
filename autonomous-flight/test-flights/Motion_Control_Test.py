@@ -35,10 +35,9 @@ def get_distance_metres(aLocation1, aLocation2):
     dlong = aLocation2.lon - aLocation1.lon
     return math.sqrt((dlat*dlat) + (dlong*dlong)) * 1.113195e5
     
-def goto(dNorth, dEast, alt, gotoFunction=vehicle.simple_goto):
+def goto(dNorth, dEast, gotoFunction=vehicle.simple_goto):
     
     currentLocation = vehicle.location.global_relative_frame
-    currentLocation.alt = alt
     targetLocation = get_location_metres(currentLocation, dNorth, dEast)
     targetDistance = get_distance_metres(currentLocation, targetLocation)
     gotoFunction(targetLocation)
@@ -46,9 +45,9 @@ def goto(dNorth, dEast, alt, gotoFunction=vehicle.simple_goto):
     while vehicle.mode.name=="GUIDED": #Stop action if we are no longer in guided mode.
         remainingDistance=get_distance_metres(vehicle.location.global_frame, targetLocation)
         #print ("Distance to target: ", remainingDistance)
-        if remainingDistance<=0.3: #Just below target, in case of undershoot.
+        if remainingDistance<=0.4: #Just below target, in case of undershoot.
             #print ("Reached target")
-            time.sleep(0.5)
+            time.sleep(0.1)
             break
 
 def condition_yaw(heading, relative=False):
@@ -165,19 +164,19 @@ while True:
                 elif x>0 and y >0:
                     degree = 90-degree
 
-                east = math.sin(math.radians(degree))*RSquare/50
-                north = math.cos(math.radians(degree))*RSquare/50
+                east = math.sin(math.radians(degree))*RSquare/100
+                north = math.cos(math.radians(degree))*RSquare/100
 
                 if RSquare > 40:
                     condition_yaw(degree)
-                    time.sleep(1)
+                    time.sleep(0.5)
                     print("Yaw is set")
-                    goto(north,east,vehicle.location.global_relative_frame.alt) # field = True #Field is centered. Ready to drop the water
+                    goto(north,east) # field = True #Field is centered. Ready to drop the water
                     print("point is reached")
 
                 elif RSquare < 40:
-                    while vehicle.location.global_relative_frame.alt>50:
-                        vehicle.location.global_relative_frame.alt-0.35
+                    while vehicle.location.global_relative_frame.alt> 0.5:
+                        vehicle.location.global_relative_frame.alt-0.25
                         print("landing")
        
 
