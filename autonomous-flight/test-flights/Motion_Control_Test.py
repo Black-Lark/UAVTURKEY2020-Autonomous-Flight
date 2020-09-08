@@ -173,7 +173,7 @@ while True:
                 print(east," , ",north)
                 if RSquare > 50:
                     condition_yaw(degree)
-                    time.sleep(2)
+                    #time.sleep(2)
                     print("Yaw is set: ",degree)
                     #goto(north,east) # field = True #Field is centered. Ready to drop the water
                     print("point is reached")
