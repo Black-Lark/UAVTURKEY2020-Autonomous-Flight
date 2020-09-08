@@ -8,7 +8,11 @@ import math
 
 #vehicle = connect("tcp:127.0.0.1:5762", wait_ready=True)
 vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
-
+cap = cv2.VideoCapture(0)
+fourcc = cv2.VideoWriter_fourcc(*'XVID')
+file_name = strftime("%Y-%m-%d_%H-%M-%S", gmtime()) + ".avi"
+out = cv2.VideoWriter('/pi/home/file_name',fourcc, 25, (640,480))
+print(file_name)
 def get_location_metres(original_location, dNorth, dEast):
     
     earth_radius = 6378137.0 #Radius of "spherical" earth
@@ -102,7 +106,6 @@ def arm_and_takeoff(aTargetAltitude):
         time.sleep(1)
 
 arm_and_takeoff(5)
-cap = cv2.VideoCapture(0)
 degree = 1
 east = 0
 north = 0
@@ -110,7 +113,6 @@ frame_pos = []
 first_tour()
 vehicle.mode = VehicleMode("AUTO")
 vehicle.commands.next=0
-counter = 0
 while vehicle.commands.next <=1:
     
     nextwaypoint=vehicle.commands.next
@@ -118,7 +120,8 @@ while vehicle.commands.next <=1:
 vehicle.mode = VehicleMode("GUIDED")
 while True: 
     ret, frame = cap.read()
-    frame = cv2.flip(frame,1)
+    out.write(frame)
+    #frame = cv2.flip(frame,1)
     if ret == True:
         # Filter red color
         frame = cv2.bilateralFilter(frame,9,75,75)
@@ -152,8 +155,6 @@ while True:
                 y = 240-intersection_cY
                 RSquare = math.sqrt(abs(x)*abs(x) + abs(y)*abs(y))
                 degree = math.degrees(math.atan(y/x))
-                counter = counter +1
-                cv2.imwrite(str(counter) +".png",frame)
                 if x <0 and y<0: # 
                     degree = 270 - degree
 
@@ -169,9 +170,9 @@ while True:
                 east = math.sin(math.radians(degree))*RSquare/100
                 north = math.cos(math.radians(degree))*RSquare/100
                 print(east," , ",north)
-                if RSquare > 40:
+                if RSquare > 50:
                     condition_yaw(degree)
-                    time.sleep(1.5)
+                    time.sleep(2)
                     print("Yaw is set: ",degree)
                     #goto(north,east) # field = True #Field is centered. Ready to drop the water
                     print("point is reached")
@@ -184,3 +185,7 @@ while True:
 
     if cv2.waitKey(1) & 0xFF == ord("q"):
         break
+
+cap.release()
+out.release()
+cv2.destroyAllWindows()
