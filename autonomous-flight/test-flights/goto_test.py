@@ -77,16 +77,16 @@ def goto(dNorth, dEast, alt, gotoFunction=vehicle.simple_goto):
 
 
 # Takeoff
-arm_and_takeoff(2)
+arm_and_takeoff(4)
 
 # Mission is starting
 print("Mission is starting")
-goto(0, -10, 2)
+goto(0, -10, 4)
 print("Wp #1 reached")
-goto(1, 0, 2)
+goto(1, 0, 4)
 print("Wp #2 reached")
-goto(0, 10, 2)
+goto(0, 10, 4)
 print("Wp #3 reached")
-goto(-1, 0, 2)
+goto(-1, 0, 4)
 print("Wp #4 reached - Exit")
 
