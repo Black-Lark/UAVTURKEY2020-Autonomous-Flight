@@ -166,7 +166,7 @@ while True:
 
                 east = math.sin(math.radians(degree))*RSquare/100
                 north = math.cos(math.radians(degree))*RSquare/100
-                print(east," , "north)
+                print(east," , ",north)
                 if RSquare > 40:
                     condition_yaw(degree)
                     print("Yaw is set: ",degree)
