@@ -176,7 +176,7 @@ while True:
 
                 elif RSquare < 40:
                     while vehicle.location.global_relative_frame.alt> 0.5:
-                        vehicle.location.global_relative_frame.alt-0.25
+                        vehicle.location.global_relative_frame.alt= vehicle.location.global_relative_frame.alt-0.25
                         print("landing")
        
 
