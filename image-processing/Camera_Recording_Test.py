@@ -1,11 +1,7 @@
 import cv2
 import numpy as np
 from time import gmtime, strftime
-from picamera import PiCamera
-from time import sleep
 
-dronecamera = PiCamera()
-dronecamera.start_recording('/home/pi/aaa.h264')
 cap = cv2.VideoCapture(0)
 #fourcc = cv2.VideoWriter_fourcc(*'XVID')
 #file_name = strftime("%Y-%m-%d_%H-%M-%S", gmtime()) + ".avi"
@@ -29,6 +25,5 @@ while(cap.isOpened()):
     else:
         print('Video stream has been corrupted.')
         break
-dronecamera.stop_recording()
 cap.release()
 cv2.destroyAllWindows()
