@@ -5,7 +5,7 @@ from picamera import PiCamera
 from time import sleep
 
 dronecamera = PiCamera()
-dronecamera.start_recording('/home/pi/aaa.h264.')
+dronecamera.start_recording('/home/pi/aaa.h264')
 cap = cv2.VideoCapture(0)
 #fourcc = cv2.VideoWriter_fourcc(*'XVID')
 #file_name = strftime("%Y-%m-%d_%H-%M-%S", gmtime()) + ".avi"
