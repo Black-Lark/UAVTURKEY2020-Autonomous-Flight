@@ -3,6 +3,7 @@ import numpy as np
 import cv2
 from pymavlink import mavutil
 from dronekit import connect, VehicleMode, LocationGlobalRelative,Vehicle, LocationGlobal, Command
+from time import gmtime, strftime 
 import time
 import math
 
