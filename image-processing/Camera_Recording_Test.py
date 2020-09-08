@@ -5,10 +5,9 @@ from time import gmtime, strftime
 cap = cv2.VideoCapture(0)
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
 file_name = strftime("%Y-%m-%d_%H-%M-%S", gmtime()) + ".avi"
-out = cv2.VideoWriter('/pi/home/file_name',fourcc, 25, (640,480))
+out = cv2.VideoWriter(file_name,fourcc, 25, (640,480))
 print(file_name)
 
-out = cv2.VideoWriter(file_name,fourcc, 30, (640,480))
 while(cap.isOpened()):
     ret, frame = cap.read()
     if ret == True:
@@ -17,7 +16,7 @@ while(cap.isOpened()):
         mask2 = cv2.inRange(frame_hsv, (165, 70, 50), (180, 255, 255))
         mask = mask1 + mask2
         # Show the frame
-        out.write(mask)
+        out.write(frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             print('Video stream has been terminated.')
             break
