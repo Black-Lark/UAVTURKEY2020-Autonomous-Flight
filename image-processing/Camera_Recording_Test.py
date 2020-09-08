@@ -1,10 +1,11 @@
 import cv2
 import numpy as np
 from time import gmtime, strftime
+
 cap = cv2.VideoCapture(0)
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
-
 file_name = strftime("%Y-%m-%d_%H-%M-%S", gmtime()) + ".avi"
+out = cv2.VideoWriter(file_name,fourcc, 30, (640,480))
 print(file_name)
 
 out = cv2.VideoWriter(file_name,fourcc, 30, (640,480))
