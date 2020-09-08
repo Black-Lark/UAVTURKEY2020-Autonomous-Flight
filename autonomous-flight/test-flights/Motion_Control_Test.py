@@ -45,9 +45,9 @@ def goto(dNorth, dEast, alt, gotoFunction=vehicle.simple_goto):
 
     while vehicle.mode.name=="GUIDED": #Stop action if we are no longer in guided mode.
         remainingDistance=get_distance_metres(vehicle.location.global_frame, targetLocation)
-        print ("Distance to target: ", remainingDistance)
-        if remainingDistance<=targetDistance*0.9: #Just below target, in case of undershoot.
-            print ("Reached target")
+        #print ("Distance to target: ", remainingDistance)
+        if remainingDistance<=0.3: #Just below target, in case of undershoot.
+            #print ("Reached target")
             time.sleep(0.5)
             break
 
@@ -166,20 +166,29 @@ while True:
 
                 elif x>0 and y >0:
                     degree = 90-degree
+<<<<<<< Updated upstream
               
                 counter = counter + 1 
                 if counter % 3 == 0:    
                     east = math.sin(math.radians(degree))/5
                     north = math.cos(math.radians(degree))/5
+=======
 
-                print("east= ",east,"north =",north,"degree= " ,degree)
+                east = math.sin(math.radians(degree))*RSquare/50
+                north = math.cos(math.radians(degree))*RSquare/50
+>>>>>>> Stashed changes
+
                 if RSquare > 40:
-                    goto(north,east,vehicle.location.global_relative_frame.alt) # field = True #Field is centered. Ready to drop the water
                     condition_yaw(degree)
+                    time.sleep(1)
+                    print("Yaw is set")
+                    goto(north,east,vehicle.location.global_relative_frame.alt) # field = True #Field is centered. Ready to drop the water
+                    print("point is reached")
 
-                elif RSquare < 40 and vehicle.location.global_relative_frame.alt> 1:
-                    goto(0,0,(vehicle.location.global_relative_frame.alt-0.25))
-                    print("landing")
+                elif RSquare < 40:
+                    while vehicle.location.global_relative_frame.alt>50:
+                        vehicle.location.global_relative_frame.alt-0.35
+                        print("landing")
        
 
     if cv2.waitKey(1) & 0xFF == ord("q"):
