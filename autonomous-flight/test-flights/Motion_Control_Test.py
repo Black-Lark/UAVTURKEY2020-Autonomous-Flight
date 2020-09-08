@@ -107,6 +107,7 @@ cap = cv2.VideoCapture(0)
 degree = 1
 east = 0
 north = 0
+counter = 0
 frame_pos = []
 first_tour()
 vehicle.mode = VehicleMode("AUTO")
@@ -153,6 +154,7 @@ while True:
                 y = 240-intersection_cY
                 RSquare = math.sqrt(abs(x)*abs(x) + abs(y)*abs(y))
                 degree = math.degrees(math.atan(y/x))
+                
                 if x <0 and y<0: # 
                     degree = 270 - degree
 
@@ -164,9 +166,11 @@ while True:
 
                 elif x>0 and y >0:
                     degree = 90-degree
-
-                east = math.sin(math.radians(degree))/5
-                north = math.cos(math.radians(degree))/5
+              
+                counter = counter + 1 
+                if counter % 3 == 0:    
+                    east = math.sin(math.radians(degree))/5
+                    north = math.cos(math.radians(degree))/5
 
                 print("east= ",east,"north =",north,"degree= " ,degree)
                 if RSquare > 40:
