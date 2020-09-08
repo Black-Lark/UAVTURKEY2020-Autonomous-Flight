@@ -69,6 +69,16 @@ def condition_yaw(heading, relative=False):
     # send command to vehicle
     vehicle.send_mavlink(msg)
 
+def first_tour(): 
+    cmds = vehicle.commands
+    cmds.clear()
+    vehicle.flush()
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_TAKEOFF, 0, 0, 0, 0, 0, 0, 0, 0, 5))
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 2, 0, 0, 0, 38.6942368 ,35.4605909 , 5))#1 Su alma alanı
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 2, 0, 0, 0, 38.6942368 ,35.4605909 , 5))#1 Su alma alanı
+
+    print(" Upload new commands to vehicle")
+    cmds.upload()
 def arm_and_takeoff(aTargetAltitude):
     while not vehicle.is_armable:
         print(" Waiting for vehicle to initialise...")
@@ -97,6 +107,14 @@ degree = 1
 east = 0
 north = 0
 frame_pos = []
+first_tour()
+vehicle.mode = VehicleMode("AUTO")
+vehicle.commands.next=0
+
+while vehicle.commands.next <=1:
+    
+    nextwaypoint=vehicle.commands.next
+
 vehicle.mode = VehicleMode("GUIDED")
 while True: 
     ret, frame = cap.read()
