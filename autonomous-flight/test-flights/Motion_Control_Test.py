@@ -171,17 +171,17 @@ while True:
                 east = math.sin(math.radians(degree))*RSquare/100
                 north = math.cos(math.radians(degree))*RSquare/100
                 print(east," , ",north)
-                if RSquare > 50:
+                if RSquare > 40:
                     condition_yaw(degree)
                     #time.sleep(2)
                     print("Yaw is set: ",degree)
-                    #goto(north,east) # field = True #Field is centered. Ready to drop the water
+                    goto(north,east) # field = True #Field is centered. Ready to drop the water
                     print("point is reached")
 
-                #elif RSquare < 40:
-                    #while vehicle.location.global_relative_frame.alt> 0.5:
-                        #vehicle.location.global_relative_frame.alt= vehicle.location.global_relative_frame.alt-0.25
-                        #print("landing")
+                elif RSquare < 40:
+                    while vehicle.location.global_relative_frame.alt> 0.5:
+                        vehicle.location.global_relative_frame.alt= vehicle.location.global_relative_frame.alt-0.25
+                        print("landing")
        
 
     if cv2.waitKey(1) & 0xFF == ord("q"):
