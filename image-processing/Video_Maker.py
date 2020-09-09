@@ -13,9 +13,9 @@ counter = 0
 while(cap.isOpened()):
     ret, frame = cap.read()
     if ret == True:
- 
+        time.sleep(2)
         counter = counter +1
-        cv2.imwrite(str(counter) +".png",frame)
+        cv2.imwrite(str(counter) + ".png",frame)
         # Show the frame
         #out.write(frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
