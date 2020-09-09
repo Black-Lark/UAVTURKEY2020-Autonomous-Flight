@@ -1,13 +1,18 @@
 import numpy as np
 import cv2
 from pymavlink import mavutil
+from time import gmtime, strftime 
 from dronekit import connect, VehicleMode, LocationGlobalRelative,Vehicle, LocationGlobal, Command
 import time
 import math
 
-vehicle = connect("tcp:127.0.0.1:5762", wait_ready=True)
-#vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
-
+#vehicle = connect("tcp:127.0.0.1:5762", wait_ready=True)
+vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
+cap = cv2.VideoCapture(0)
+fourcc = cv2.VideoWriter_fourcc(*'XVID')
+file_name = strftime("%Y-%m-%d_%H-%M-%S", gmtime()) + ".avi"
+out = cv2.VideoWriter(file_name,fourcc, 25, (640,480))
+print(file_name)
 def get_location_metres(original_location, dNorth, dEast):
     
     earth_radius = 6378137.0 #Radius of "spherical" earth
@@ -34,9 +39,10 @@ def get_distance_metres(aLocation1, aLocation2):
     dlong = aLocation2.lon - aLocation1.lon
     return math.sqrt((dlat*dlat) + (dlong*dlong)) * 1.113195e5
     
-def goto(dNorth, dEast, gotoFunction=vehicle.simple_goto):
+def goto(dNorth, dEast,alt, gotoFunction=vehicle.simple_goto):
     
     currentLocation = vehicle.location.global_relative_frame
+    currentLocation.alt = alt
     targetLocation = get_location_metres(currentLocation, dNorth, dEast)
     #targetDistance = get_distance_metres(currentLocation, targetLocation)
     gotoFunction(targetLocation)
@@ -59,6 +65,17 @@ def condition_yaw(heading, relative=False):
         0, 0, 0)    # param 5 ~ 7 not used
     # send command to vehicle
     vehicle.send_mavlink(msg)
+
+def first_tour(): 
+    cmds = vehicle.commands
+    cmds.clear()
+    vehicle.flush()
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_TAKEOFF, 0, 0, 0, 0, 0, 0, 0, 0, 5))
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, 38.6942368 ,35.4605909 , 5))#1 Su alma alanı
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, 38.6942368 ,35.4605909 , 5))#1 Su alma alanı
+
+    print(" Upload new commands to vehicle")
+    cmds.upload()
 
 def arm_and_takeoff(aTargetAltitude):
     while not vehicle.is_armable:
@@ -83,15 +100,22 @@ def arm_and_takeoff(aTargetAltitude):
         time.sleep(1)
 
 arm_and_takeoff(5)
-cap = cv2.VideoCapture('2020-09-08_15-34-23.avi')
 degree = 1
 east = 0
 north = 0
 
+first_tour()
+vehicle.mode = VehicleMode("AUTO")
+vehicle.commands.next=0
+
+while vehicle.commands.next <=1:
+    
+    nextwaypoint=vehicle.commands.next
+
 while True: 
     ret, frame = cap.read()
-    cv2.imshow("frame",frame)
-    #frame = cv2.flip(frame,1)
+    out.write(frame)
+    #frame = cv2.flip(frame,1) #flipppppppppppppp
     if ret == True:
         # Filter red color
         cv2.imshow("frame",frame)
@@ -118,21 +142,37 @@ while True:
                 # Show the frame
                 intersection_cX= np.average(intersection_length[1])
                 intersection_cY= np.average(intersection_length[0])
-                #cv2.imshow("mask", mask)
-                #cv2.imshow("black", img)
                 cv2.imshow("intersection", intersection)
 
                 x = intersection_cX-320
                 y = 240-intersection_cY
-                
-                current_yaw = math.degrees(vehicle.attitude.yaw)
+                RSquare = math.sqrt((x)*(x) + (y)*(y))
 
-                if x>-20 and x<20:
-                    east = math.sin(current_yaw)
-                    north = math.cos(current_yaw)
-                    goto(east,north)
+                if math.degrees(vehicle.attitude.yaw) < 0:
+                    current_yaw = math.degrees(vehicle.attitude.yaw) +360
                 else:
-                    condition_yaw(degree+5)
+                    current_yaw = math.degrees(vehicle.attitude.yaw)
 
+                if (x>-20 and x<20):
+                    east = math.sin(math.radians(current_yaw))
+                    north = math.cos(math.radians(current_yaw))
+                    if RSquare>40:
+                        goto(north,east,vehicle.location.global_relative_frame.alt)
+                    elif vehicle.location.global_relative_frame.alt > 0.5:
+                        goto(0,0,vehicle.location.global_relative_frame.alt-0.25)
+                        print("landing")
+                else:
+                    current_yaw = current_yaw+5
+                    if current_yaw >360:
+                        current_yaw= current_yaw-360
+
+                    condition_yaw(current_yaw)
+                #print(current_yaw)
+                    
     if cv2.waitKey(260) & 0xFF == ord("q"):
         break
+
+
+cap.release()
+out.release()
+cv2.destroyAllWindows()
