@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 from time import gmtime, strftime
-
+import time
 cap = cv2.VideoCapture(0)
 #file_name = strftime("%Y-%m-%d_%H-%M-%S", gmtime()) + ".avi"
 #fourcc = cv2.VideoWriter_fourcc(*'MJPG')
