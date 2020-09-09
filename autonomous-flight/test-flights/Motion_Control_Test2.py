@@ -155,7 +155,7 @@ while True:
                 else:
                     current_yaw = math.degrees(vehicle.attitude.yaw)
 
-                if (x>-25 and x<25):
+                if (x>-50 and x<50) and y>0:
                     east = math.sin(math.radians(current_yaw))
                     north = math.cos(math.radians(current_yaw))
                     if RSquare>40:
