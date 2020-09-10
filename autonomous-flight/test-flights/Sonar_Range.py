@@ -9,5 +9,5 @@ import math
 
 #vehicle = connect("tcp:127.0.0.1:5762", wait_ready=True)
 vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
-
-print(vehicle.rangefinder.distance)
+while True:
+    print(vehicle.rangefinder.distance)
