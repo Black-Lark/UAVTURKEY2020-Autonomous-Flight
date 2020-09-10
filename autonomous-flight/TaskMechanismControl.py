@@ -8,11 +8,11 @@ level2 = Button(19)
 level3 = Button(26)
 
 dc_motor_relay = LED(16)
-dc_motor_relay.off()
+dc_motor_relay.on()
 
 time.sleep(2)
 
-dc_motor_relay.on()
+dc_motor_relay.off()
 
 
 # while True:
