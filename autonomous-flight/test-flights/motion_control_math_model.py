@@ -103,6 +103,14 @@ def first_tour():
 
 arm_and_takeoff(5)
 
+vehicle.mode = VehicleMode("AUTO")
+vehicle.commands.next=0
+while vehicle.commands.next <=1:
+    
+    nextwaypoint=vehicle.commands.next
+
+vehicle.mode = VehicleMode("GUIDED")
+
 while True: 
     ret, frame = cap.read()
     out.write(frame)
