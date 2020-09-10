@@ -117,6 +117,7 @@ vehicle.mode = VehicleMode("GUIDED")
 while True: 
     ret, frame = cap.read()
     out.write(frame)
+    print(ret)
     #frame = cv2.flip(frame,1) #flipppppppppppppp
     if ret == True:
         # Filter red color
@@ -129,7 +130,7 @@ while True:
         white_pixels = np.where(mask==255)
         cX = np.average(white_pixels[1])
         cY = np.average(white_pixels[0])
-        
+        print("1")
         # Small noise elimination
         if len(white_pixels[0]) > 5000:
             # Object location detection
@@ -137,7 +138,7 @@ while True:
             cv2.circle(img, (int(cX),int(cY)), 85, (255,255,255), thickness=-1, lineType=8, shift=0)
             intersection = cv2.bitwise_and(img,mask)
             intersection_length = np.where(intersection==255)
-
+            print("2")
             #print(len(intersection_length[0]))
             # Grande noise elimination
             if len(intersection_length[0]) > 5000:
