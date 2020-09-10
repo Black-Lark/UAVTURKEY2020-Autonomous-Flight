@@ -67,11 +67,7 @@ def goto(dNorth, dEast,alt, gotoFunction=vehicle.simple_goto):
     gotoFunction(targetLocation)
 
 
-arm_and_takeoff(3)
+arm_and_takeoff(6)
 
-while True:
-    if vehicle.location.global_relative_frame.alt>0.5:
-        goto(0,0,0.5)
-    else:
-        goto(0,0,vehicle.location.global_relative_frame.alt)
+goto(0,2,vehicle.location.global_relative_frame.alt)
 
