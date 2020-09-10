@@ -32,7 +32,7 @@ def arm_and_takeoff(aTargetAltitude):
             break
         time.sleep(1)
 
-arm_and_takeoff(5)
+arm_and_takeoff(3)
 
 while True:
     if vehicle.location.global_relative_frame>0.5:
