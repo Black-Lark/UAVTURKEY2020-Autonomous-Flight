@@ -154,7 +154,7 @@ while True:
 
                 x = intersection_cX-320
                 y = 240-intersection_cY
-                RSquare = math.sqrt(abs(x)*abs(x) + abs(y)*abs(y))
+                RSquare = math.sqrt((x)*(x) + (y)*(y))
                 degree = math.degrees(math.atan(y/x))
                 if x <0 and y<0: # 
                     degree = 270 - degree
