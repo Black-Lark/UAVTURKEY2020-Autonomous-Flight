@@ -102,7 +102,7 @@ def first_tour():
     cmds.upload()
 
 arm_and_takeoff(5)
-
+first_tour()
 vehicle.mode = VehicleMode("AUTO")
 vehicle.commands.next=0
 while vehicle.commands.next <=1:
