@@ -72,15 +72,16 @@ def goto(dNorth, dEast, alt, gotoFunction=vehicle.simple_goto):
     currentLocation=vehicle.location.global_relative_frame
     currentLocation.alt = alt
     targetLocation=get_location_metres(currentLocation, dNorth, dEast)
+    targetDistance = get_distance_metres(currentLocation, targetLocation)
     gotoFunction(targetLocation)
 
     while vehicle.mode.name=="GUIDED": #Stop action if we are no longer in guided mode.
         remainingDistance=get_distance_metres(vehicle.location.global_frame, targetLocation)
         print ("Distance to target: ", remainingDistance)
-        if remainingDistance<=0.4: #Just below target, in case of undershoot.
+        if remainingDistance<=targetDistance*0.5: #Just below target, in case of undershoot.
             print ("Reached target")
             break
-        time.sleep(2)
+        
 
 def distance_estimate(alt, deviation):
     alt = alt * 100
@@ -142,7 +143,7 @@ while True:
                 north = distance_estimate(rangefinder_alt, y)
                 
                 # Go to the location
-                goto(north, east, vehicle.location.global_relative_frame.alt)
+                goto(north*2, east*2, vehicle.location.global_relative_frame.alt)
                     
         if cv2.waitKey(1) & 0xFF == ord("q"):
             break
