@@ -155,8 +155,8 @@ while True:
                 goto(north*2, east*2, vehicle.location.global_relative_frame.alt)
                 break
 
-        if cv2.waitKey(1) & 0xFF == ord("q"):
-            break
+    if cv2.waitKey(1) & 0xFF == ord("q"):
+        break
 
 goto(0, 0, 2)
 
