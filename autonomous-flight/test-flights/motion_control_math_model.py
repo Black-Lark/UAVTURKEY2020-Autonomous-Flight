@@ -101,6 +101,8 @@ def first_tour():
     print(" Upload new commands to vehicle")
     cmds.upload()
 
+arm_and_takeoff(5)
+
 while True: 
     ret, frame = cap.read()
     out.write(frame)
@@ -130,13 +132,12 @@ while True:
                 intersection_cX= np.average(intersection_length[1])
                 intersection_cY= np.average(intersection_length[0])
                 cv2.imshow("intersection", intersection)
-
+                # Set 
                 x = intersection_cX-320
                 y = 240-intersection_cY
                 # deviation = math.sqrt((x)*(x) + (y)*(y))
-
                 rangefinder_alt = vehicle.rangefinder.distance
-
+                #rangefinder_alt = vehicle.location.global_relative_frame.alt
                 # Get deviation in meters at x-axis
                 east = distance_estimate(rangefinder_alt, x)
                 # Get deviation in meters at y-axis
@@ -144,7 +145,8 @@ while True:
                 
                 # Go to the location
                 goto(north*2, east*2, vehicle.location.global_relative_frame.alt)
-                    
+                break
+
         if cv2.waitKey(1) & 0xFF == ord("q"):
             break
 
