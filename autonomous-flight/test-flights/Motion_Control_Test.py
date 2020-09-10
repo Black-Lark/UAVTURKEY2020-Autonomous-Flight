@@ -35,7 +35,7 @@ def arm_and_takeoff(aTargetAltitude):
 arm_and_takeoff(3)
 
 while True:
-    if vehicle.location.global_relative_frame>0.5:
+    if vehicle.location.global_relative_frame.alt>0.5:
         vehicle.mode= VehicleMode("LAND")
     else:
         vehicle.mode = VehicleMode("GUIDED")
