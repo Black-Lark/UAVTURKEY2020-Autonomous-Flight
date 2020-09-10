@@ -69,5 +69,5 @@ def goto(dNorth, dEast,alt, gotoFunction=vehicle.simple_goto):
 
 arm_and_takeoff(6)
 
-goto(0,2,vehicle.location.global_relative_frame.alt)
+goto(0,4,vehicle.location.global_relative_frame.alt)
 
