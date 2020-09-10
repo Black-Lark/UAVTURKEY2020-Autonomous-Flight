@@ -23,8 +23,9 @@ dc_motor_relay.on()
 #     time.sleep(1)
 
 
+
 # dcmotor = LED(21)
 
 # dcmotor.on()
 
-# pause()
+pause()
