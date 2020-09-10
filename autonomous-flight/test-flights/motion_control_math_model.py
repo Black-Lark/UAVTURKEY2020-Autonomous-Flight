@@ -150,6 +150,7 @@ while True:
         if cv2.waitKey(1) & 0xFF == ord("q"):
             break
 
+goto(0, 0, 2)
 
 cap.release()
 out.release()
