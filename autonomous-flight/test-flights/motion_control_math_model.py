@@ -7,8 +7,8 @@ from time import gmtime, strftime
 import time
 import math
 
-#vehicle = connect("tcp:127.0.0.1:5762", wait_ready=True)
-vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
+vehicle = connect("tcp:127.0.0.1:5762", wait_ready=True)
+# vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
 # OpenCV
 cap = cv2.VideoCapture(0)
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
@@ -90,6 +90,14 @@ def distance_estimate(alt, deviation):
     pixel_to_cm = a * alt + b
     return deviation * pixel_to_cm / 100
 
+
+def current_yaw():
+    yaw = math.degrees(vehicle.attitude.yaw)
+    if yaw < 0:
+        yaw = yaw + 360
+    return yaw
+
+
 def first_tour(): 
     cmds = vehicle.commands
     cmds.clear()
@@ -101,6 +109,7 @@ def first_tour():
     print(" Upload new commands to vehicle")
     cmds.upload()
 
+
 arm_and_takeoff(5)
 first_tour()
 vehicle.mode = VehicleMode("AUTO")
@@ -109,6 +118,7 @@ while vehicle.commands.next <=1:
     
     nextwaypoint=vehicle.commands.next
 
+time.sleep(2)
 vehicle.mode = VehicleMode("GUIDED")
 
 while True: 
@@ -144,13 +154,36 @@ while True:
                 x = intersection_cX-320
                 y = 240-intersection_cY
                 # deviation = math.sqrt((x)*(x) + (y)*(y))
-                rangefinder_alt = vehicle.rangefinder.distance
-                #rangefinder_alt = vehicle.location.global_relative_frame.alt
+                rangefinder_alt = vehicle.location.global_relative_frame.alt
+                # rangefinder_alt = vehicle.rangefinder.distance
                 # Get deviation in meters at x-axis
-                east = distance_estimate(rangefinder_alt, x)
+                x = distance_estimate(rangefinder_alt, x)
                 # Get deviation in meters at y-axis
-                north = distance_estimate(rangefinder_alt, y)
+                y = distance_estimate(rangefinder_alt, y)
                 
+                # Current yaw in degrees
+                alpha = current_yaw()
+                # Deviation vector degree in camera frame
+                if x == 0:
+                    theta = 90
+                else:
+                    theta = math.degrees(math.atan(y/x))
+                # Deviation vector degree in global frame
+                beta = theta - alpha
+                # Deviation vector magnitude
+                d = math.sqrt(x*x + y*y)
+                # Deviation vector components in global frame
+                north = d * math.sin(math.radians(beta))
+                east = d * math.cos(math.radians(beta))
+
+                # Correction for 2. and 3.
+                if (x < 0 and y < 0) or (x < 0 and y > 0):
+                    north = north * -1
+                    east = east * -1
+
+                print("theta: ", theta)
+                print(east, ", ", north)
+
                 # Go to the location
                 goto(north*2, east*2, vehicle.location.global_relative_frame.alt)
                 break
