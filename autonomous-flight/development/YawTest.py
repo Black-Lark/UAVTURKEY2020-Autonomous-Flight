@@ -10,5 +10,5 @@ import math
 vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
 
 while True:
-    print(vehicle.attitude.yaw)
+    print(math.degrees(vehicle.attitude.yaw))
     time.sleep(0.5)
