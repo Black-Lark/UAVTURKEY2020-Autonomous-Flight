@@ -9,6 +9,12 @@ import math
 
 vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
 
+def current_yaw():
+    yaw = math.degrees(vehicle.attitude.yaw)
+    if yaw < 0:
+        yaw = yaw + 360
+    return yaw
+
 while True:
-    print(math.degrees(vehicle.attitude.yaw))
+    print(current_yaw())
     time.sleep(0.5)
