@@ -54,7 +54,7 @@ auto_altitude()
 vehicle.commands.next = 0
 vehicle.mode = VehicleMode("AUTO")
 time.sleep(1)
-while vehicle.rangefinder.distance > 0.35:
+while vehicle.rangefinder.distance > 0.25:
     nextwaypoints = vehicle.commands.next
     print("landing")
 vehicle.mode = VehicleMode("LOITER")
