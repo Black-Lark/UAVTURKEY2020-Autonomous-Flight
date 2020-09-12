@@ -154,8 +154,8 @@ while True:
                 x = intersection_cX-320
                 y = 240-intersection_cY
                 # deviation = math.sqrt((x)*(x) + (y)*(y))
-                rangefinder_alt = vehicle.location.global_relative_frame.alt
-                # rangefinder_alt = vehicle.rangefinder.distance
+                # rangefinder_alt = vehicle.location.global_relative_frame.alt
+                rangefinder_alt = vehicle.rangefinder.distance
                 # Get deviation in meters at x-axis
                 x = distance_estimate(rangefinder_alt, x)
                 # Get deviation in meters at y-axis
@@ -191,7 +191,7 @@ while True:
     if cv2.waitKey(1) & 0xFF == ord("q"):
         break
 
-goto(0, 0, 2)
+goto(0, 0, 1)
 
 cap.release()
 out.release()
