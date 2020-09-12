@@ -5,7 +5,7 @@ from pymavlink import mavutil
 from dronekit import connect, VehicleMode, LocationGlobalRelative,Vehicle, LocationGlobal, Command
 import time
 from time import gmtime, strftime
-
+import math
 #vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
 vehicle = connect("tcp:127.0.0.1:5762", wait_ready=True)
 cap = cv2.VideoCapture(0)
@@ -157,6 +157,7 @@ vehicle.commands.next=0
 lat = 0
 lon = 0
 frame_pos = []
+r_square = []
 while vehicle.commands.next <=13:
     
     nextwaypoint=vehicle.commands.next
@@ -169,7 +170,7 @@ while vehicle.commands.next <=13:
             frame = cv2.bilateralFilter(frame,9,75,75)
             frame_hsv = cv2.cvtColor(frame,cv2.COLOR_BGR2HSV)
             mask1 = cv2.inRange(frame_hsv, (0, 70, 50), (10, 255, 255))
-            mask2 = cv2.inRange(frame_hsv, (170, 70, 50), (180, 255, 255))
+            mask2 = cv2.inRange(frame_hsv, (160, 70, 50), (180, 255, 255))
             mask = mask1 + mask2
             white_pixels = np.where(mask==255)
             cX = np.average(white_pixels[1])
@@ -188,15 +189,16 @@ while vehicle.commands.next <=13:
                     # Grande noise elimination
                     if len(intersection_length[0]) > 5000:
                         # Show the frame
-
-                        #cv2.imshow("mask", mask)
-                        #cv2.imshow("black", img)
                         cv2.imshow("intersection", intersection)
-                        
-                        print("Field Detected")
+                        intersection_cX= np.average(intersection_length[1])
+                        intersection_cY= np.average(intersection_length[0])
+                        x = intersection_cX-320
+                        y = 240-intersection_cY
+                        RSquare = math.sqrt((x)*(x) + (y)*(y))
                         lat = vehicle.location.global_relative_frame.lat
                         lon = vehicle.location.global_relative_frame.lon
                         frame_pos.append([lat,lon])
+                        r_square.append(RSquare)
                         # Getting the nearest location
             # Show the frame        
             cv2.imshow("frame", frame)
@@ -204,16 +206,19 @@ while vehicle.commands.next <=13:
                 print('Video stream has been terminated.')
                 break
 # En iyi lat lon eklenecek...!!!!!!!!!
-
+MinPosition = r_square.index(min(r_square))
+lat,lon = frame_pos[MinPosition]
 second_tour(lat,lon)
+print(lat,lon)
 vehicle.commands.next=0
 nextwaypoint=0
+
 while vehicle.commands.next <=4:
     
     nextwaypoint=vehicle.commands.next
 
 #Centering algorithm
-
+print("second_tour_part_one is finished")
 cap.release()
 cv2.destroyAllWindows()
 vehicle.mode = VehicleMode("GUIDED")
@@ -270,9 +275,10 @@ while True:
 cap.release()
 out.release()
 cv2.destroyAllWindows()
-
+print("starting part two")
 center_lat = vehicle.location.global_relative_frame.lat
 center_lon = vehicle.location.global_relative_frame.lon
+
 second_tour_part_two(center_lat,center_lon)
 
 vehicle.commands.next=0
