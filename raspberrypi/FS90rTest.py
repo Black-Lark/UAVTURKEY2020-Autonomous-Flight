@@ -11,8 +11,8 @@ pwm.start(0)
 t0 = time.clock()
 t0 = time.time()
 
-while time.time() - t0 < 2:
-    pwm.ChangeDutyCycle(5) # for cw use (5)  
+while time.time() - t0 < 4:
+    pwm.ChangeDutyCycle(10) # for cw use (5)  
 
 pwm.stop()
 GPIO.cleanup()
