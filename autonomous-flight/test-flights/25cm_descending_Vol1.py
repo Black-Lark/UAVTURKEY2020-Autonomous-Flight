@@ -45,6 +45,7 @@ def auto_altitude():
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, 38.6939188797346, 35.4611829668283 , 0.25))# 0.25 m
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, 38.6939188797346, 35.4611829668283 , 0.15))# 0.15 m
 
+    cmds.upload()
 
 arm_and_takeoff(2)
 auto_altitude()
