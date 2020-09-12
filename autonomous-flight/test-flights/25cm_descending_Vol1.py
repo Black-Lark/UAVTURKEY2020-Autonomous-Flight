@@ -42,6 +42,8 @@ def auto_altitude():
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, 38.6939372, 35.4610946 , 2))# 2 m
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, 38.6939372, 35.4610946 , 1))# 2 m
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, 38.6939372, 35.4610946 , 0.5))# 2 m
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, 38.6939372, 35.4610946 , 0.4))# 2 m
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, 38.6939372, 35.4610946 , 0.3))# 2 m
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, 38.6939372, 35.4610946 , 0.25))# 2 m
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, 38.6939372, 35.4610946 , 0.15))# 2 m
 
@@ -52,7 +54,7 @@ auto_altitude()
 vehicle.commands.next = 0
 vehicle.mode = VehicleMode("AUTO")
 time.sleep(1)
-while vehicle.rangefinder.distance > 0.25:
+while vehicle.rangefinder.distance > 0.35:
     nextwaypoints = vehicle.commands.next
-
+    print("landing")
 vehicle.mode = VehicleMode("LOITER")
