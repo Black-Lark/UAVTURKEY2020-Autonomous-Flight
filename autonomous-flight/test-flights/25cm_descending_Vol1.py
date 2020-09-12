@@ -1,6 +1,6 @@
 import numpy as np
 from pymavlink import mavutil
-from dronekit import connect, VehicleMode, LocationGlobalRelative,Vehicle, LocationGlobal
+from dronekit import connect, VehicleMode, LocationGlobalRelative,Vehicle, LocationGlobal, Command
 import time
 import math
 # Connect
