@@ -28,7 +28,6 @@ def arm_and_takeoff(aTargetAltitude):
 
     print(vehicle.mode)
 
-    # Confirm vehicle armed before attempting to take off
     while not vehicle.armed:
         print(" Waiting for arming...")
         time.sleep(1)
@@ -36,7 +35,6 @@ def arm_and_takeoff(aTargetAltitude):
     print("Taking off!")
     vehicle.simple_takeoff(aTargetAltitude)  # Take off to target altitude
 
-    # Wait until the vehicle reaches a safe height before processing the goto
     while True:
         print(" Altitude: ", vehicle.location.global_relative_frame.alt)
         # Break and return from function just below target altitude.
@@ -44,6 +42,7 @@ def arm_and_takeoff(aTargetAltitude):
             print("Reached target altitude")
             break
         time.sleep(1)
+
 
 def get_location_metres(original_location, dNorth, dEast):
     earth_radius = 6378137.0 #Radius of "spherical" earth
@@ -91,6 +90,13 @@ def distance_estimate(alt, deviation):
     pixel_to_cm = a * alt + b
     return deviation * pixel_to_cm / 100
 
+def current_yaw():
+    yaw = math.degrees(vehicle.attitude.yaw)
+    if yaw < 0:
+        yaw = yaw + 360
+    return yaw
+
+
 def first_tour(): 
     cmds = vehicle.commands
     cmds.clear()
@@ -117,10 +123,14 @@ def second_tour(lat,lon):
     cmds = vehicle.commands
     cmds.clear()
     vehicle.flush() 
-    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 2, 0, 0, 0, 38.6945111 , 35.4598989, 5))#1.WP Su alma alanı
-    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6945111 , 35.4598989, 0.5))#1.WP Su alma alanı
-    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6945111 , 35.4598989, 5))#1.WP Su alma alanı
-    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 2, 0, 0, 0, 0, lat , lon, 5))# Su bırakma
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, 38.6945111 , 35.4598989, 5))#1.WP Su alma alanı
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, 38.6945111 , 35.4598989, 4))#1.WP Su alma alanı
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, 38.6945111 , 35.4598989, 3))#1.WP Su alma alanı
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, 38.6945111 , 35.4598989, 2))#1.WP Su alma alanı
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, 38.6945111 , 35.4598989, 1))#1.WP Su alma alanı
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, 38.6945111 , 35.4598989, 0.5))#1.WP Su alma alanı
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, 38.6945111 , 35.4598989, 0.20))#1.WP Su alma alanı
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 2, 0, 0, 0, lat , lon, 5))# Su bırakma
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, lat , lon, 5))# Dummy Su bırakma
     cmds.upload()
 
@@ -130,7 +140,7 @@ def second_tour_part_two(center_lat, center_lon):
     cmds.clear()
     vehicle.flush() 
 
-    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, center_lat , center_lon, 0.5))# Su bırakma
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 2, 0, 0, 0, center_lat , center_lon, 0.5))# Su bırakma
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6947120 , 35.4596508, 5))#2.WP 
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6947319 , 35.4595006, 5))#3.WP
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6947105 , 35.4593483, 5))#4.WP
@@ -213,8 +223,15 @@ print(lat,lon)
 vehicle.commands.next=0
 nextwaypoint=0
 
-while vehicle.commands.next <=4:
+while vehicle.location.global_relative_frame.alt > 0.25: #vehicle.rangefinder.distance
     
+    nextwaypoint=vehicle.commands.next
+
+vehicle.mode = VehicleMode("LOITER")
+time.sleep(2)
+vehicle.commands.next = 8
+vehicle.mode = VehicleMode("AUTO")
+while vehicle.commands.next <= 8:
     nextwaypoint=vehicle.commands.next
 
 #Centering algorithm
@@ -259,13 +276,35 @@ while True:
                 x = intersection_cX-320
                 y = 240-intersection_cY
                 # deviation = math.sqrt((x)*(x) + (y)*(y))
-                rangefinder_alt = vehicle.rangefinder.distance
-                #rangefinder_alt = vehicle.location.global_relative_frame.alt
+                rangefinder_alt = vehicle.location.global_relative_frame.alt
+                #rangefinder_alt = vehicle.rangefinder.distance
                 # Get deviation in meters at x-axis
-                east = distance_estimate(rangefinder_alt, x)
+                x = distance_estimate(rangefinder_alt, x)
                 # Get deviation in meters at y-axis
-                north = distance_estimate(rangefinder_alt, y)
-                
+                y = distance_estimate(rangefinder_alt, y)
+                # Current yaw in degrees
+                alpha = current_yaw()
+                # Deviation vector degree in camera frame
+                if x == 0:
+                    theta = 90
+                else:
+                    theta = math.degrees(math.atan(y/x))
+                # Deviation vector degree in global frame
+                beta = theta - alpha
+                # Deviation vector magnitude
+                d = math.sqrt(x*x + y*y)
+                # Deviation vector components in global frame
+                north = d * math.sin(math.radians(beta))
+                east = d * math.cos(math.radians(beta))
+
+                # Correction for 2. and 3.
+                if (x < 0 and y < 0) or (x < 0 and y > 0):
+                    north = north * -1
+                    east = east * -1
+
+                print("theta: ", theta)
+                print(east, ", ", north)
+
                 # Go to the location
                 goto(north, east, vehicle.location.global_relative_frame.alt)
                 break
