@@ -223,7 +223,7 @@ print(lat,lon)
 vehicle.commands.next=0
 nextwaypoint=0
 
-while vehicle.location.global_relative_frame.alt > 0.25: #vehicle.rangefinder.distance
+while vehicle.rangefinder.distance > 0.25: #vehicle.rangefinder.distance
     
     nextwaypoint=vehicle.commands.next
 
@@ -276,8 +276,8 @@ while True:
                 x = intersection_cX-320
                 y = 240-intersection_cY
                 # deviation = math.sqrt((x)*(x) + (y)*(y))
-                rangefinder_alt = vehicle.location.global_relative_frame.alt
-                #rangefinder_alt = vehicle.rangefinder.distance
+                #rangefinder_alt = vehicle.location.global_relative_frame.alt
+                rangefinder_alt = vehicle.rangefinder.distance
                 # Get deviation in meters at x-axis
                 x = distance_estimate(rangefinder_alt, x)
                 # Get deviation in meters at y-axis
@@ -306,7 +306,7 @@ while True:
                 print(east, ", ", north)
 
                 # Go to the location
-                goto(north, east, vehicle.location.global_relative_frame.alt)
+                goto(north, east, vehicle.rangefinder.distance)
                 break
 
         if cv2.waitKey(1) & 0xFF == ord("q"):
