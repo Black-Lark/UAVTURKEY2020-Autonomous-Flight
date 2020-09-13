@@ -78,7 +78,7 @@ def goto(dNorth, dEast, alt, gotoFunction=vehicle.simple_goto):
     while vehicle.mode.name=="GUIDED": #Stop action if we are no longer in guided mode.
         remainingDistance=get_distance_metres(vehicle.location.global_frame, targetLocation)
         print ("Distance to target: ", remainingDistance)
-        if remainingDistance<=0.4: #Just below target, in case of undershoot.
+        if remainingDistance<=targetDistance*0.5: #Just below target, in case of undershoot.
             print ("Reached target")
             break
         
@@ -185,7 +185,7 @@ while True:
                 print(east, ", ", north)
 
                 # Go to the location
-                goto(north, east, vehicle.rangefinder.distance)
+                goto(north*2, east*2, vehicle.rangefinder.distance)
                 break
 
     if cv2.waitKey(1) & 0xFF == ord("q"):
