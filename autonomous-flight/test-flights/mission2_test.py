@@ -127,7 +127,8 @@ def second_tour(lat,lon):
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6944475 , 35.4600088, 4))#1.WP Su alma alanı
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6944475 , 35.4600088, 3))#1.WP Su alma alanı
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6944475 , 35.4600088, 2))#1.WP Su alma alanı
-    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 2, 0, 0, 0, 38.6944475 , 35.4600088, 1))#1.WP Su alma alanı
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 2, 0, 0, 0, 38.6944475 , 35.4600088, 0.7))#1.WP Su alma alanı
+
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 2, 0, 0, 0, lat , lon, 5))# Su bırakma
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, lat , lon, 5))# Dummy Su bırakma
     cmds.upload()
@@ -170,12 +171,12 @@ while vehicle.commands.next <=13:
     
     nextwaypoint=vehicle.commands.next
 
-    if vehicle.commands.next == 2:
+    if (vehicle.commands.next == 2 or vehicle.commands.next == 3 or vehicle.commands.next == 4):
         ret, frame = cap.read()
 
         if ret == True:
             # Filter red color
-            frame = cv2.bilateralFilter(frame,9,75,75)
+            #frame = cv2.bilateralFilter(frame,9,75,75)
             frame_hsv = cv2.cvtColor(frame,cv2.COLOR_BGR2HSV)
             mask1 = cv2.inRange(frame_hsv, (0, 70, 50), (10, 255, 255))
             mask2 = cv2.inRange(frame_hsv, (160, 70, 50), (180, 255, 255))
@@ -247,7 +248,7 @@ while True:
     if ret == True:
         # Filter red color
         cv2.imshow("frame",frame)
-        frame = cv2.bilateralFilter(frame,9,75,75)
+        #frame = cv2.bilateralFilter(frame,9,75,75)
         frame_hsv = cv2.cvtColor(frame,cv2.COLOR_BGR2HSV)
         mask1 = cv2.inRange(frame_hsv, (0, 70, 50), (10, 255, 255))
         mask2 = cv2.inRange(frame_hsv, (165, 70, 50), (180, 255, 255))
