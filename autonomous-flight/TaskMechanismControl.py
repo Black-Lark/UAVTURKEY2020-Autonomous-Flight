@@ -16,7 +16,7 @@ dc_motor_relay = LED(8)
 #GPIO.setup(33, GPIO.OUT)
 #pwm=GPIO.PWM(33, 50)
 print("Starting")
-while level2 and level3 is False:
+while level2 is False and level3 is False:
     if level0 is True:
         pump_motor_relay.off()
 print("finished")
