@@ -128,8 +128,6 @@ def second_tour(lat,lon):
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, 38.6945111 , 35.4598989, 3))#1.WP Su alma alanı
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, 38.6945111 , 35.4598989, 2))#1.WP Su alma alanı
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, 38.6945111 , 35.4598989, 1))#1.WP Su alma alanı
-    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, 38.6945111 , 35.4598989, 0.5))#1.WP Su alma alanı
-    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, 38.6945111 , 35.4598989, 0.20))#1.WP Su alma alanı
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 2, 0, 0, 0, lat , lon, 5))# Su bırakma
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, lat , lon, 5))# Dummy Su bırakma
     cmds.upload()
@@ -223,15 +221,15 @@ print(lat,lon)
 vehicle.commands.next=0
 nextwaypoint=0
 
-while vehicle.rangefinder.distance > 0.25: #vehicle.rangefinder.distance
+while vehicle.rangefinder.distance > 1: #vehicle.rangefinder.distance
     
     nextwaypoint=vehicle.commands.next
 
 vehicle.mode = VehicleMode("LOITER")
 time.sleep(2)
-vehicle.commands.next = 8
+vehicle.commands.next = 6
 vehicle.mode = VehicleMode("AUTO")
-while vehicle.commands.next <= 8:
+while vehicle.commands.next <= 6:
     nextwaypoint=vehicle.commands.next
 
 #Centering algorithm
