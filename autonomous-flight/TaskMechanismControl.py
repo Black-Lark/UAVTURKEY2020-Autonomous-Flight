@@ -21,17 +21,11 @@ while level2 and level3 is False:
         pump_motor_relay.off()
 
 pump_motor_relay.on()
-pwm.start(0)
-t0 = time.clock()
-t0 = time.time()
+#t0 = time.clock()
+#t0 = time.time()
 
-while time.time() - t0 < 2:
-    pwm.ChangeDutyCycle(10) # for cw use (5)    
-
-pwm.stop()
-GPIO.cleanup()
-
-
+#while time.time() - t0 < 2:
+    #pwm.ChangeDutyCycle(10) # for cw use (5)    
 
 
 #dc_motor_relay = LED(8)
