@@ -198,7 +198,7 @@ while vehicle.commands.next <=13:
                     print(len(intersection_length[0]))
                     # Grande noise elimination
                     if len(intersection_length[0]) > 5000:
-                        # Show the frame
+                        #Show the frame
                         cv2.imshow("intersection", intersection)
                         intersection_cX= np.average(intersection_length[1])
                         intersection_cY= np.average(intersection_length[0])
