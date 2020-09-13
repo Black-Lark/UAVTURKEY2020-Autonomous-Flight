@@ -13,8 +13,8 @@ pump_motor_relay = LED(7)
 dc_motor_relay = LED(8)
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)
-GPIO.setup(33, GPIO.OUT)
-pwm=GPIO.PWM(33, 50)
+GPIO.setup(32, GPIO.OUT)
+pwm=GPIO.PWM(32, 50)
 
 while level2 and level3 is False:
     if level0 is True:
