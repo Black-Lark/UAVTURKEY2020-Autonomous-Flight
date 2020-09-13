@@ -215,15 +215,16 @@ while vehicle.commands.next <=13:
                 print('Video stream has been terminated.')
                 break
 # En iyi lat lon eklenecek...!!!!!!!!!
+vehicle.mode = VehicleMode("GUIDED")
 MinPosition = r_square.index(min(r_square))
 lat,lon = frame_pos[MinPosition]
 second_tour(lat,lon)
 print(lat,lon)
 vehicle.commands.next=0
 nextwaypoint=0
-print(vehicle.rangefinder.distance)
+vehicle.mode = VehicleMode("AUTO")
 while vehicle.rangefinder.distance > 1: #vehicle.rangefinder.distance
-    print(vehicle.rangefinder.distance,"Inside")
+
     nextwaypoint=vehicle.commands.next
 
 vehicle.mode = VehicleMode("LOITER")
