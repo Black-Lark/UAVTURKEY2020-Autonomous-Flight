@@ -10,7 +10,7 @@ cap = cv2.VideoCapture(0)
 #out = cv2.VideoWriter(file_name,fourcc, 30, (240,360))
 #print(file_name)
 counter = 0 
-while(cap.isOpened()):
+while counter <= 5:
     ret, frame = cap.read()
     if ret == True:
         time.sleep(2)
