@@ -78,7 +78,7 @@ def goto(dNorth, dEast, alt, gotoFunction=vehicle.simple_goto):
     while vehicle.mode.name=="GUIDED": #Stop action if we are no longer in guided mode.
         remainingDistance=get_distance_metres(vehicle.location.global_frame, targetLocation)
         print ("Distance to target: ", remainingDistance)
-        if remainingDistance<=targetDistance*0.5: #Just below target, in case of undershoot.
+        if remainingDistance<=0.4: #Just below target, in case of undershoot.
             print ("Reached target")
             break
         
@@ -103,8 +103,8 @@ def first_tour():
     cmds.clear()
     vehicle.flush()
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_TAKEOFF, 0, 0, 0, 0, 0, 0, 0, 0, 5))
-    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, 38.6942368 ,35.4605909 , 5))#1 Su alma alanı
-    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, 38.6942368 ,35.4605909 , 5))#1 Su alma alanı
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, 38.6946396 ,35.4597401 , 5))#1 Su alma alanı
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, 38.6946396 ,35.4597401 , 5))#1 Su alma alanı
 
     print(" Upload new commands to vehicle")
     cmds.upload()
@@ -185,7 +185,7 @@ while True:
                 print(east, ", ", north)
 
                 # Go to the location
-                goto(north*2, east*2, vehicle.location.global_relative_frame.alt)
+                goto(north, east, vehicle.rangefinder.distance)
                 break
 
     if cv2.waitKey(1) & 0xFF == ord("q"):
