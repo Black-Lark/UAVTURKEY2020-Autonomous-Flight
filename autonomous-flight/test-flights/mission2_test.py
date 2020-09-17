@@ -158,7 +158,7 @@ def second_tour_part_two(center_lat, center_lon):
 
     cmds.upload()
 
-arm_and_takeoff(5)
+arm_and_takeoff(8)
 first_tour()
 vehicle.mode = VehicleMode("AUTO")
 vehicle.commands.next=0
