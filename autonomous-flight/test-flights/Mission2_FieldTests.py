@@ -50,7 +50,6 @@ def field_detection_tour():
     cmds.clear()
     vehicle.flush()
     
-    
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_TAKEOFF, 0, 0, 0, 0, 0, 0, 0, 0, 8)) # Dummy wp
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 37.0744883 , 37.2768346, 8))#27
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 37.0743075 , 37.2768393, 8))#28
@@ -70,6 +69,17 @@ def field_detection_tour():
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 37.0746205 , 37.2768293, 8))# 25
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 37.0746205 , 37.2768293, 8))# 25 Dummy
 
+    cmds.upload()
+
+def second_tour(lat,lon):
+    cmds = vehicle.commands
+    cmds.clear()
+    vehicle.flush() 
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 37.0744883 , 37.2768346, 8))#27
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 37.0743075 , 37.2768393, 8))#28
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 37.0742171 , 37.276838, 8))#29
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 37.0741662 , 37.2768541, 8))#30
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 37.0741411 , 37.2769164, 8))#31
     cmds.upload()
 
 # Arm and take off
@@ -107,7 +117,6 @@ while vehicle.commands.next <=16:
                     cv2.circle(img, (int(cX),int(cY)), 85, (255,255,255), thickness=-1, lineType=8, shift=0)
                     intersection = cv2.bitwise_and(img,mask)
                     intersection_length = np.where(intersection==255)
-
                     print(len(intersection_length[0]))
                     # Grande noise elimination
                     if len(intersection_length[0]) > 5000:
@@ -131,4 +140,5 @@ while vehicle.commands.next <=16:
 MinPosition = r_square.index(min(r_square))
 lat,lon = frame_pos[MinPosition]   
 print(lat,lon)
-print("OUT")
+second_tour(lat,lon)
+
