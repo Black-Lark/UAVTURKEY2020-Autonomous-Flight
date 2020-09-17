@@ -18,13 +18,14 @@ while(cap.isOpened()):
         # Show the frame
         counter = counter + 1
         out.write(frame)
+        print(counter)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             print('Video stream has been terminated.')
             break
     else:
         print('Video stream has been corrupted.')
         break
-print(counter)
+
 cap.release()
 out.release()
 cv2.destroyAllWindows()
