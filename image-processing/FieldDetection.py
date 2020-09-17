@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-cap = cv2.VideoCapture('C:/Users/thosl/Desktop/Drone/iki-üç.mp4')
+cap = cv2.VideoCapture('C:/Users/thosl/Desktop/red.mp4')
 frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 
@@ -17,7 +17,7 @@ while(cap.isOpened()):
         white_pixels = np.where(mask==255)
         cX = np.average(white_pixels[1])
         cY = np.average(white_pixels[0])
-        
+        cv2.imshow("mask",mask)
         # Small noise elimination
         if len(white_pixels[0]) > 5000:
             # Object location detection
@@ -34,12 +34,11 @@ while(cap.isOpened()):
                     cv2.imshow("mask", mask)
                     cv2.imshow("black", img)
                     cv2.imshow("intersection", intersection)
-                    cv2.imwrite("test.png",intersection)
-                    break
+                    #cv2.imwrite("test.png",intersection)
                     
         # Show the frame        
         cv2.imshow("frame", frame)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
+        if cv2.waitKey(500) & 0xFF == ord('q'):
             print('Video stream has been terminated.')
             break
 
