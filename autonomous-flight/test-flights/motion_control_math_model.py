@@ -114,9 +114,10 @@ arm_and_takeoff(5)
 first_tour()
 vehicle.mode = VehicleMode("AUTO")
 vehicle.commands.next=0
+
 while vehicle.commands.next <=1:
-    
     nextwaypoint=vehicle.commands.next
+    print("Next Wp is ", vehicle.commands.next)
 
 time.sleep(2)
 vehicle.mode = VehicleMode("GUIDED")
