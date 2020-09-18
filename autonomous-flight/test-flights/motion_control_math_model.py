@@ -7,8 +7,8 @@ from time import gmtime, strftime
 import time
 import math
 
-#vehicle = connect("tcp:127.0.0.1:5762", wait_ready=True)
-vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
+vehicle = connect("tcp:127.0.0.1:5762", wait_ready=True)
+#vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
 # OpenCV
 cap = cv2.VideoCapture(0)
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
@@ -103,11 +103,25 @@ def field_detection_tour():
     cmds.clear()
     vehicle.flush()
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_TAKEOFF, 0, 0, 0, 0, 0, 0, 0, 0, 5))# Dummy
-    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9779648 ,37.3033456 , 5))# 60m başlangıç
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9779131 ,37.3031116 , 5))# 1
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9778751 ,37.3032403 , 5))# 2
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9778590 ,37.3033006 , 5))# 3 Su alma alanı
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9778569 ,37.3033670 , 5))# 4
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9779463 ,37.303367 , 5))# 5
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9779731 ,37.3033456 , 5)) # 60m başlangıç
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9780112 ,37.3032517 , 5)) # 60m orta
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9780647 ,37.3030727 , 5)) # 60m bitiş
-    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9780647 ,37.3030727 , 5)) # 60m dummy
-    
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9780272 ,37.3030183 , 5)) # 9
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9779828 ,37.3029714 , 5)) # 10
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9779383 ,37.3030552 , 5)) # 11
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9779131 ,37.3031116 , 5))# 1
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9778751 ,37.3032403 , 5))# 2
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9778590 ,37.3033006 , 5))# 3 Su alma alanı
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9778590 ,37.3033006 , 4))# 3 Su alma alanı
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9778590 ,37.3033006 , 3))# 3 Su alma alanı
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9778590 ,37.3033006 , 2))# 3 Su alma alanı
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9778590 ,37.3033006 , 1))# 3 Su alma alanı
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9778590 ,37.3033006 , 1))# Dummy 3 Su alma alanı
 
     print(" Upload new commands to vehicle")
     cmds.upload()
@@ -116,17 +130,14 @@ def second_tour(lat,lon):
     cmds = vehicle.commands
     cmds.clear()
     vehicle.flush()
+
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_TAKEOFF, 0, 0, 0, 0, 0, 0, 0, 0, 5)) # Delete in real fligth
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9778569 ,37.3033670 , 5))# 4
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9779463 ,37.303367 , 5))# 5
+
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9779731 ,37.3033456 , 5)) # 60m başlangıç
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, lat ,lon , 5))# Su bırakma alanı
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, lat ,lon , 5))# Dummy Su bırakma alanı
-
-    # cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, lat ,lon , 7))# Su bırakma
-    # cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, lat ,lon , 6))# 
-    # cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, lat ,lon , 5))# 
-    # cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, lat ,lon , 4))# 
-    # cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, lat ,lon , 3))# 
-    # cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, lat ,lon , 2))# 
-    # cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, lat ,lon , 1))# 
-    # cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_RELATIVE_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, lat ,lon , 1))# 1m dummy
 
     cmds.upload()
 
@@ -134,15 +145,21 @@ def second_tour_part_two(center_lat, center_lon):
     cmds = vehicle.commands
     cmds.clear()
     vehicle.flush() 
-    #cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_TAKEOFF, 0, 0, 0, 0, 0, 0, 0, 0, 5)) # Delete in real fligth
+
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_TAKEOFF, 0, 0, 0, 0, 0, 0, 0, 0, 5)) # Delete in real fligth
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, center_lat , center_lon, 5))# Su bırakma
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, center_lat , center_lon, 4))# Su bırakma
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, center_lat , center_lon, 3))# Su bırakma
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, center_lat , center_lon, 2))# Su bırakma
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, center_lat , center_lon, 1.75))# Su bırakma
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, center_lat , center_lon, 1))# Su bırakma
-    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, center_lat , center_lon, 1))# 1m dummy bırakma
-
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9780647 ,37.3030727 , 5)) # 60m bitiş
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9780272 ,37.3030183 , 5)) # 9
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9779828 ,37.3029714 , 5)) # 10
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9779383 ,37.3030552 , 5)) # 11
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9779131 ,37.3031116 , 5))# 1
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9779131 ,37.3031116 , 5))# Dummy 1
+    
     cmds.upload()
 
 arm_and_takeoff(5)
@@ -158,9 +175,9 @@ lat = 0
 lon = 0
 frame_pos = []
 r_square = []
-while vehicle.commands.next <=3:
+while vehicle.commands.next <=18:
     nextwaypoint=vehicle.commands.next
-    if (vehicle.commands.next == 2 or  vehicle.commands.next == 3):
+    if (vehicle.commands.next == 7 or  vehicle.commands.next == 8):
         ret, frame = cap.read()
 
         if ret == True:
@@ -204,12 +221,11 @@ while vehicle.commands.next <=3:
                 print('Video stream has been terminated.')
                 break
 
+while vehicle.mode != "LOITER":
+    vehicle.mode = VehicleMode("LOITER")
+    print("waiting loiter mode")
 
-
-while vehicle.mode != "GUIDED":
-    vehicle.mode = VehicleMode("GUIDED")
-    print("waiting guided mode")
-
+time.sleep(5) # 5 saniye su alma
 cap.release()
 out.release()
 cv2.destroyAllWindows()
@@ -227,14 +243,14 @@ while vehicle.mode != "AUTO":
     print("waiting auto mode")
 
 
-while vehicle.commands.next <=1:
+while vehicle.commands.next <=4:
     nextwaypoint=vehicle.commands.next
     print("Next Wp is ", vehicle.commands.next)
 
 
 while vehicle.mode != "GUIDED":
     vehicle.mode = VehicleMode("GUIDED")
-    print("waiting for guided line 237")
+    print("waiting for guided line 247")
 
 while True: 
     ret, frame = cap.read()
@@ -269,8 +285,8 @@ while True:
                 x = intersection_cX-320
                 y = 240-intersection_cY
                 # deviation = math.sqrt((x)*(x) + (y)*(y))
-                #rangefinder_alt = vehicle.location.global_relative_frame.alt
-                rangefinder_alt = vehicle.rangefinder.distance
+                rangefinder_alt = vehicle.location.global_relative_frame.alt
+                #rangefinder_alt = vehicle.rangefinder.distance
                 # Get deviation in meters at x-axis
                 x = distance_estimate(rangefinder_alt, x)
                 # Get deviation in meters at y-axis
@@ -300,7 +316,7 @@ while True:
                 print(east, ", ", north)
 
                 # Go to the location
-                goto(north*2, east*2, vehicle.rangefinder.distance)
+                goto(north*2, east*2, vehicle.location.global_relative_frame.alt)
                 break
 
     if cv2.waitKey(1) & 0xFF == ord("q"):
@@ -318,11 +334,22 @@ vehicle.commands.next=0
 nextwaypoint=0
 while vehicle.mode != "AUTO":
     vehicle.mode = VehicleMode("AUTO")
-    print("waiting for last auto line 340")
-
+    print("waiting for auto line 336")
 
 while vehicle.location.global_relative_frame.alt >= 1.5:
     
     nextwaypoint=vehicle.commands.next
 
-vehicle.mode = VehicleMode("LOITER")
+while vehicle.mode != "LOITER":
+    vehicle.mode = VehicleMode("LOITER")
+    print("waiting for Loiter line 344")
+
+time.sleep(5) # 5 sn. su bırakma
+
+vehicle.commands.next = 7
+
+while vehicle.commands.next <=11:
+    nextwaypoint=vehicle.commands.next
+    print("Next Wp is ", vehicle.commands.next)
+
+print("Mission finished")
