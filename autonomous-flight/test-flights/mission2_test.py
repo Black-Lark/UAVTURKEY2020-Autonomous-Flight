@@ -6,8 +6,8 @@ from dronekit import connect, VehicleMode, LocationGlobalRelative,Vehicle, Locat
 import time
 from time import gmtime, strftime
 import math
-#vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
-vehicle = connect("tcp:127.0.0.1:5762", wait_ready=True)
+vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
+#vehicle = connect("tcp:127.0.0.1:5762", wait_ready=True)
 cap = cv2.VideoCapture(0)
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
 file_name = strftime("%Y-%m-%d_%H-%M-%S", gmtime()) + ".avi"
