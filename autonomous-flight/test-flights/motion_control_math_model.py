@@ -7,8 +7,8 @@ from time import gmtime, strftime
 import time
 import math
 
-vehicle = connect("tcp:127.0.0.1:5762", wait_ready=True)
-#vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
+#vehicle = connect("tcp:127.0.0.1:5762", wait_ready=True)
+vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
 # OpenCV
 cap = cv2.VideoCapture(0)
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
