@@ -148,6 +148,7 @@ while vehicle.commands.next <=16:
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 print('Video stream has been terminated.')
                 break
+
 cap.release()
 out.release()
 cv2.destroyAllWindows()
@@ -160,6 +161,7 @@ vehicle.commands.next=0
 nextwaypoint=0
 
 vehicle.mode = VehicleMode("AUTO")
+
 while vehicle.location.global_relative_frame.alt > 0.5: #vehicle.rangefinder.distance
 
     nextwaypoint=vehicle.commands.next
