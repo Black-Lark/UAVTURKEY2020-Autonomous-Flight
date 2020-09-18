@@ -176,6 +176,7 @@ while vehicle.commands.next <=3:
             # Small noise elimination
             if len(white_pixels[0]) > 5000:
                 # Object location detection
+               
                 if (220 < cY < 350):
                     img = np.zeros((480,640,1),np.uint8)    
                     cv2.circle(img, (int(cX),int(cY)), 85, (255,255,255), thickness=-1, lineType=8, shift=0)
