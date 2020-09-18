@@ -119,14 +119,6 @@ def field_detection_tour():
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 37.0751282 , 37.2768145, 8))# 21 
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 37.0748864 , 37.2768279, 8))# 23
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 37.0746205 , 37.2768293, 8))# 25
-    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 37.0746205 , 37.2768293, 8))# 25 Dummy
-
-    cmds.upload()
-
-def second_tour(lat,lon):
-    cmds = vehicle.commands
-    cmds.clear()
-    vehicle.flush() 
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 37.0744883 , 37.2768346, 8))#27
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 37.0743075 , 37.2768393, 8))#28
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 37.0742171 , 37.276838, 8))#29
@@ -140,11 +132,20 @@ def second_tour(lat,lon):
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 37.0743067 , 37.2769248, 1))#Su alma
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 37.0743067 , 37.2769248, 0.6))#Su alma
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 37.0743067 , 37.2769248, 0.4))#Su alma
-    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 37.0743067 , 37.2769248, 5))#Su alma
-    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 2, 0, 0, 0, lat , lon, 5))# Su bırakma
-    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, lat , lon, 5))# Dummy Su bırakma
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 37.0743067 , 37.2769248, 0.4))#Su alma
+ 
+
     cmds.upload()
-    cmds.wait_ready()
+
+def second_tour(lat,lon):
+    cmds = vehicle.commands
+    cmds.clear()
+    vehicle.flush()
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_TAKEOFF, 0, 0, 0, 0, 0, 0, 0, 0, 5)) # Delete in real fligth
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 37.0743067 , 37.2769248, 8))#Su alma
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 2, 0, 0, 0, lat , lon, 8))# Su bırakma
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, lat , lon, 8))# Dummy Su bırakma
+    cmds.upload()
 
 def second_tour_part_two(center_lat, center_lon):
     cmds = vehicle.commands
@@ -177,7 +178,7 @@ lat = 0
 lon = 0
 frame_pos = []
 r_square = []
-while vehicle.commands.next <=16:
+while vehicle.commands.next <=29:
     nextwaypoint=vehicle.commands.next
     if (vehicle.commands.next == 10 or  vehicle.commands.next == 11):
         ret, frame = cap.read()
@@ -225,9 +226,15 @@ while vehicle.commands.next <=16:
 cap.release()
 out.release()
 cv2.destroyAllWindows()
-while vehicle.mode != "GUIDED":
-    vehicle.mode = VehicleMode("GUIDED")
-    print("waiting guided line 159")
+
+#while vehicle.mode != "LOITER":
+    #vehicle.mode = VehicleMode("LOITER")
+print("waiting loiter line 232")
+print("ready to take water")
+time.sleep(10)
+
+
+
 
 cap = cv2.VideoCapture(0)
 MinPosition = r_square.index(min(r_square))
@@ -241,30 +248,10 @@ while vehicle.mode != "AUTO":
     vehicle.mode = VehicleMode("AUTO")
     print("waiting auto mode")
 
-while vehicle.location.global_relative_frame.alt > 1: #vehicle.rangefinder.distance
-
-    nextwaypoint=vehicle.commands.next
-
-while vehicle.mode != "LOITER":
-    vehicle.mode = VehicleMode("LOITER")
-    print("waiting for loiter 178")
-    time.sleep(10)
-print("ready to take water")
-time.sleep(5)
-
-vehicle.commands.next = 15
-
-while vehicle.mode != "AUTO":
-    vehicle.mode = VehicleMode("AUTO")
-    print("waiting auto mode")
-
-while vehicle.commands.next <=15:
+while vehicle.commands.next <=2:
     
     nextwaypoint=vehicle.commands.next
-
-
-cap.release()
-cv2.destroyAllWindows()
+print("Su bırakma alanı üstünde")
 
 while vehicle.mode != "GUIDED":
     vehicle.mode = VehicleMode("GUIDED")
@@ -348,13 +335,14 @@ cv2.destroyAllWindows()
 
 center_lat = vehicle.location.global_relative_frame.lat
 center_lon = vehicle.location.global_relative_frame.lon
+
 print("center lat", center_lat, "center long", center_lon)
 second_tour_part_two(center_lat,center_lon)
 vehicle.commands.next=0
 nextwaypoint=0
 while vehicle.mode != "AUTO":
     vehicle.mode = VehicleMode("AUTO")
-    print("waiting for last auto line 285")
+    print("waiting for last auto line 340")
 
 while vehicle.commands.next <=11:
     
