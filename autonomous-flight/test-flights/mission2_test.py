@@ -6,8 +6,8 @@ from dronekit import connect, VehicleMode, LocationGlobalRelative,Vehicle, Locat
 import time
 from time import gmtime, strftime
 import math
-vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
-#vehicle = connect("tcp:127.0.0.1:5762", wait_ready=True)
+#vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
+vehicle = connect("tcp:127.0.0.1:5762", wait_ready=True)
 cap = cv2.VideoCapture(0)
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
 file_name = strftime("%Y-%m-%d_%H-%M-%S", gmtime()) + ".avi"
@@ -122,13 +122,13 @@ def first_tour():
 def second_tour(lat,lon):
     cmds = vehicle.commands
     cmds.clear()
-    vehicle.flush() 
+    vehicle.flush()
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_TAKEOFF, 0, 0, 0, 0, 0, 0, 0, 0, 5))# Delete in real fligth
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6944475 , 35.4600088, 5))#1.WP Su alma alanı
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6944475 , 35.4600088, 4))#1.WP Su alma alanı
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6944475 , 35.4600088, 3))#1.WP Su alma alanı
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6944475 , 35.4600088, 2))#1.WP Su alma alanı
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 2, 0, 0, 0, 38.6944475 , 35.4600088, 0.7))#1.WP Su alma alanı
-
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 2, 0, 0, 0, lat , lon, 5))# Su bırakma
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, lat , lon, 5))# Dummy Su bırakma
     cmds.upload()
@@ -139,6 +139,7 @@ def second_tour_part_two(center_lat, center_lon):
     cmds.clear()
     vehicle.flush() 
 
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_TAKEOFF, 0, 0, 0, 0, 0, 0, 0, 0, 5)) # Delete in real fligth
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 2, 0, 0, 0, center_lat , center_lon, 0.5))# Su bırakma
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6947120 , 35.4596508, 5))#2.WP 
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 38.6947319 , 35.4595006, 5))#3.WP
@@ -158,7 +159,7 @@ def second_tour_part_two(center_lat, center_lon):
 
     cmds.upload()
 
-arm_and_takeoff(8)
+arm_and_takeoff(5)
 first_tour()
 vehicle.mode = VehicleMode("AUTO")
 vehicle.commands.next=0
@@ -171,7 +172,7 @@ while vehicle.commands.next <=13:
     
     nextwaypoint=vehicle.commands.next
 
-    if (vehicle.commands.next == 2 or vehicle.commands.next == 3 or vehicle.commands.next == 4):
+    if (vehicle.commands.next == 2 or vehicle.commands.next == 3):
         ret, frame = cap.read()
 
         if ret == True:
@@ -223,14 +224,21 @@ print(lat,lon)
 vehicle.commands.next=0
 nextwaypoint=0
 vehicle.mode = VehicleMode("AUTO")
-while vehicle.rangefinder.distance > 1: #vehicle.rangefinder.distance
+
+while vehicle.location.global_relative_frame.alt > 1: #vehicle.rangefinder.distance
 
     nextwaypoint=vehicle.commands.next
 
-vehicle.mode = VehicleMode("LOITER")
-time.sleep(2)
+
+while vehicle.mode != "LOITER":
+    vehicle.mode = VehicleMode("LOITER")
+    print("waiting for loiter")
+
 vehicle.commands.next = 6
-vehicle.mode = VehicleMode("AUTO")
+while vehicle.mode != "AUTO":
+    vehicle.mode = VehicleMode("AUTO")
+    print("waiting for auto")
+
 while vehicle.commands.next <= 6:
     nextwaypoint=vehicle.commands.next
 
@@ -238,7 +246,9 @@ while vehicle.commands.next <= 6:
 print("second_tour_part_one is finished")
 cap.release()
 cv2.destroyAllWindows()
-vehicle.mode = VehicleMode("GUIDED")
+while vehicle.mode != "GUIDED":
+    vehicle.mode = VehicleMode("GUIDED")
+    print("waiting for guided")
 
 cap = cv2.VideoCapture(0)
 center_lat= 0
@@ -276,8 +286,8 @@ while True:
                 x = intersection_cX-320
                 y = 240-intersection_cY
                 # deviation = math.sqrt((x)*(x) + (y)*(y))
-                #rangefinder_alt = vehicle.location.global_relative_frame.alt
-                rangefinder_alt = vehicle.rangefinder.distance
+                rangefinder_alt = vehicle.location.global_relative_frame.alt
+                #rangefinder_alt = vehicle.rangefinder.distance
                 # Get deviation in meters at x-axis
                 x = distance_estimate(rangefinder_alt, x)
                 # Get deviation in meters at y-axis
@@ -306,7 +316,7 @@ while True:
                 print(east, ", ", north)
 
                 # Go to the location
-                goto(north, east, vehicle.rangefinder.distance)
+                goto(north, east, vehicle.location.global_relative_frame.alt)
                 break
 
         if cv2.waitKey(1) & 0xFF == ord("q"):
