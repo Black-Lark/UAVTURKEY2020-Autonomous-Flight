@@ -361,9 +361,10 @@ while vehicle.mode != "LOITER":
     vehicle.mode = VehicleMode("LOITER")
     print("waiting for Loiter line 344")
 dc_motor_relay.off()
+print("dc motor on")
 time.sleep(10)
 dc_motor_relay.on()
-
+print("dc motor off")
 vehicle.commands.next = 7
 
 while vehicle.mode != "AUTO":
