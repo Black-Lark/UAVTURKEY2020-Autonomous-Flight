@@ -6,10 +6,18 @@ from dronekit import connect, VehicleMode, LocationGlobalRelative,Vehicle, Locat
 from time import gmtime, strftime 
 import time
 import math
+from gpiozero import LED, Button
+from signal import pause 
+import RPi.GPIO as GPIO
 
 #vehicle = connect("tcp:127.0.0.1:5762", wait_ready=True)
 vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
 # OpenCV
+level0 = Button(6) # Pompa motors
+pump_motor_relay = LED(7)
+pump_motor_relay.on()
+dc_motor_relay = LED(8)
+dc_motor_relay.on()
 cap = cv2.VideoCapture(0)
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
 file_name = strftime("%Y-%m-%d_%H-%M-%S", gmtime()) + ".avi"
@@ -118,9 +126,9 @@ def field_detection_tour():
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9778751 ,37.3032403 , 5))# 2
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9778590 ,37.3033006 , 5))# 3 Su alma alanı
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9778590 ,37.3033006 , 4))# 3 Su alma alanı
-    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9778590 ,37.3033006 , 3))# 3 Su alma alanı
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9778590 ,37.3033006 , 2))# 3 Su alma alanı
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9778590 ,37.3033006 , 1))# 3 Su alma alanı
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9778590 ,37.3033006 , 0.4))# 3 Su alma alanı
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9778590 ,37.3033006 , 1))# Dummy 3 Su alma alanı
 
     print(" Upload new commands to vehicle")
@@ -224,7 +232,13 @@ while vehicle.mode != "LOITER":
     vehicle.mode = VehicleMode("LOITER")
     print("waiting loiter mode")
 
+while True:
+    print(vehicle.rangefinder.distance)
+    if vehicle.rangefinder.distance < 0.5:
+        pump_motor_relay.off()
+        break
 time.sleep(5) # 5 saniye su alma
+pump_motor_relay.on()
 cap.release()
 out.release()
 cv2.destroyAllWindows()
@@ -343,8 +357,9 @@ while vehicle.rangefinder.distance >= 1.5:
 while vehicle.mode != "LOITER":
     vehicle.mode = VehicleMode("LOITER")
     print("waiting for Loiter line 344")
-
-time.sleep(5) # 5 sn. su bırakma
+dc_motor_relay.off()
+time.sleep(10)
+dc_motor_relay.on()
 
 vehicle.commands.next = 7
 
