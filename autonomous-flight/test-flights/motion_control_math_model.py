@@ -7,8 +7,8 @@ from time import gmtime, strftime
 import time
 import math
 
-vehicle = connect("tcp:127.0.0.1:5762", wait_ready=True)
-#vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
+#vehicle = connect("tcp:127.0.0.1:5762", wait_ready=True)
+vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
 # OpenCV
 cap = cv2.VideoCapture(0)
 fourcc = cv2.VideoWriter_fourcc(*'XVID')
@@ -131,10 +131,9 @@ def second_tour(lat,lon):
     cmds.clear()
     vehicle.flush()
 
-    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_TAKEOFF, 0, 0, 0, 0, 0, 0, 0, 0, 5)) # Delete in real fligth
+    #cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_TAKEOFF, 0, 0, 0, 0, 0, 0, 0, 0, 5)) # Delete in real fligth
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9778569 ,37.3033670 , 5))# 4
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9779463 ,37.303367 , 5))# 5
-
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, 36.9779731 ,37.3033456 , 5)) # 60m başlangıç
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, lat ,lon , 5))# Su bırakma alanı
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 1, 0, 0, 0, lat ,lon , 5))# Dummy Su bırakma alanı
@@ -146,7 +145,7 @@ def second_tour_part_two(center_lat, center_lon):
     cmds.clear()
     vehicle.flush() 
 
-    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_TAKEOFF, 0, 0, 0, 0, 0, 0, 0, 0, 5)) # Delete in real fligth
+    #cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_TAKEOFF, 0, 0, 0, 0, 0, 0, 0, 0, 5)) # Delete in real fligth
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, center_lat , center_lon, 5))# Su bırakma
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, center_lat , center_lon, 4))# Su bırakma
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 0, 0, 0, 0, 0, center_lat , center_lon, 3))# Su bırakma
@@ -285,8 +284,8 @@ while True:
                 x = intersection_cX-320
                 y = 240-intersection_cY
                 # deviation = math.sqrt((x)*(x) + (y)*(y))
-                rangefinder_alt = vehicle.location.global_relative_frame.alt
-                #rangefinder_alt = vehicle.rangefinder.distance
+                #rangefinder_alt = vehicle.location.global_relative_frame.alt
+                rangefinder_alt = vehicle.rangefinder.distance
                 # Get deviation in meters at x-axis
                 x = distance_estimate(rangefinder_alt, x)
                 # Get deviation in meters at y-axis
@@ -316,7 +315,7 @@ while True:
                 print(east, ", ", north)
 
                 # Go to the location
-                goto(north*2, east*2, vehicle.location.global_relative_frame.alt)
+                goto(north*2, east*2, vehicle.rangefinder.distance)
                 break
 
     if cv2.waitKey(1) & 0xFF == ord("q"):
@@ -332,11 +331,12 @@ print("center lat", center_lat, "center long", center_lon)
 second_tour_part_two(center_lat,center_lon)
 vehicle.commands.next=0
 nextwaypoint=0
+
 while vehicle.mode != "AUTO":
     vehicle.mode = VehicleMode("AUTO")
-    print("waiting for auto line 336")
+    print("waiting for auto line 337")
 
-while vehicle.location.global_relative_frame.alt >= 1.5:
+while vehicle.rangefinder.distance >= 1.5:
     
     nextwaypoint=vehicle.commands.next
 
@@ -347,6 +347,10 @@ while vehicle.mode != "LOITER":
 time.sleep(5) # 5 sn. su bırakma
 
 vehicle.commands.next = 7
+
+while vehicle.mode != "AUTO":
+    vehicle.mode = VehicleMode("AUTO")
+    print("waiting for auto line 351")
 
 while vehicle.commands.next <=11:
     nextwaypoint=vehicle.commands.next
