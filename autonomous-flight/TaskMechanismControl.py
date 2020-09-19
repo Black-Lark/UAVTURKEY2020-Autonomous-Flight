@@ -2,11 +2,12 @@ from gpiozero import LED, Button
 from signal import pause 
 import RPi.GPIO as GPIO
 import time
-
+from dronekit import connect, VehicleMode, LocationGlobalRelative,Vehicle, LocationGlobal, Command
+vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
 # Water sensor
 level0 = Button(6) # Pompa motors
-level1 = Button(13) # Kabın içerisinde zeminde 
-level2 = Button(19) # kabın içerisinde yukarıda 
+#level1 = Button(13) # Kabın içerisinde zeminde 
+#level2 = Button(19) # kabın içerisinde yukarıda 
 level3 = Button(26) # hava valfinin orada
 
 pump_motor_relay = LED(7)
@@ -19,11 +20,10 @@ dc_motor_relay.on()
 #pwm=GPIO.PWM(33, 50)
 print("Starting")
 while True:
-    print(level0.is_pressed)
-    if level0.is_pressed is True:
+    print(vehicle.rangefinder.distance)
+    if vehicle.rangefinder.distance < 0.15:
         pump_motor_relay.off()
         break
-
 time.sleep(10)
 pump_motor_relay.on()
 dc_motor_relay.off()
