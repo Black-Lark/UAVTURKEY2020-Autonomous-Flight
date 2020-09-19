@@ -226,7 +226,7 @@ while vehicle.commands.next <=20:
                         r_square.append(RSquare)
                         # Getting the nearest location
             # Show the frame        
-            cv2.imshow("frame", frame)
+            #cv2.imshow("frame", frame)
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 print('Video stream has been terminated.')
                 break
