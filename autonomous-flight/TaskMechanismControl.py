@@ -27,7 +27,7 @@ while True:
 time.sleep(10)
 pump_motor_relay.on()
 dc_motor_relay.off()
-time.sleep(5)
+time.sleep(10)
 dc_motor_relay.on()
 print("finished")
 
