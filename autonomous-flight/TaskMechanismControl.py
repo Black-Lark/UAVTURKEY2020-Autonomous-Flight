@@ -10,13 +10,16 @@ level2 = Button(19) # kabın içerisinde yukarıda
 level3 = Button(26) # hava valfinin orada
 
 pump_motor_relay = LED(7)
+pump_motor_relay.on()
 dc_motor_relay = LED(8)
+dc_motor_relay.on()
 #GPIO.setwarnings(False)
 #GPIO.setmode(GPIO.BOARD)
 #GPIO.setup(33, GPIO.OUT)
 #pwm=GPIO.PWM(33, 50)
 print("Starting")
 while True:
+    print(level0.is_pressed)
     if level0.is_pressed is True:
         pump_motor_relay.off()
         break
