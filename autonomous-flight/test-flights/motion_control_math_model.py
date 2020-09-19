@@ -236,6 +236,7 @@ while True:
     print(vehicle.rangefinder.distance)
     if vehicle.rangefinder.distance < 0.5:
         pump_motor_relay.off()
+        print("pump motor started")
         break
 time.sleep(5) # 5 saniye su alma
 pump_motor_relay.on()
