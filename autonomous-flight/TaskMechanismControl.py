@@ -24,7 +24,7 @@ while True:
     if vehicle.rangefinder.distance < 0.30:
         pump_motor_relay.off()
         break
-time.sleep(10)
+time.sleep(17)
 pump_motor_relay.on()
 dc_motor_relay.off()
 time.sleep(10)
