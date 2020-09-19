@@ -128,6 +128,8 @@ def field_detection_tour():
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 1, 0, 0, 0, 0, 36.9778590 ,37.3033006 , 4))# 3 Su alma alanı
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 1, 0, 0, 0, 0, 36.9778590 ,37.3033006 , 2))# 3 Su alma alanı
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 2, 0, 0, 0, 0, 36.9778590 ,37.3033006 , 1))# 3 Su alma alanı
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 2, 0, 0, 0, 0, 36.9778590 ,37.3033006 , 0.75))# 3 Su alma alanı
+    cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 2, 0, 0, 0, 0, 36.9778590 ,37.3033006 , 0.5))# 3 Su alma alanı
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 2, 0, 0, 0, 0, 36.9778590 ,37.3033006 , 0.4))# 3 Su alma alanı
     cmds.add(Command( 0, 0, 0, mavutil.mavlink.MAV_FRAME_GLOBAL_TERRAIN_ALT, mavutil.mavlink.MAV_CMD_NAV_WAYPOINT, 0, 2, 0, 0, 0, 0, 36.9778590 ,37.3033006 , 0.4))# Dummy 3 Su alma alanı
 
@@ -182,7 +184,7 @@ lat = 0
 lon = 0
 frame_pos = []
 r_square = []
-while vehicle.commands.next <=18:
+while vehicle.commands.next <=20:
     nextwaypoint=vehicle.commands.next
     if (vehicle.commands.next == 7 or  vehicle.commands.next == 8):
         ret, frame = cap.read()
