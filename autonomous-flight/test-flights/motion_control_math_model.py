@@ -230,9 +230,7 @@ while vehicle.commands.next <=20:
                 print('Video stream has been terminated.')
                 break
 
-while vehicle.mode != "LOITER":
-    vehicle.mode = VehicleMode("LOITER")
-    print("waiting loiter mode")
+
 
 while True:
     print(vehicle.rangefinder.distance)
@@ -240,6 +238,12 @@ while True:
         pump_motor_relay.off()
         print("pump motor started")
         break
+
+while vehicle.mode != "LOITER":
+    vehicle.mode = VehicleMode("LOITER")
+    print("waiting loiter mode")
+
+
 time.sleep(5) # 5 saniye su alma
 pump_motor_relay.on()
 cap.release()
