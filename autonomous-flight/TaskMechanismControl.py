@@ -21,7 +21,7 @@ dc_motor_relay.on()
 print("Starting")
 while True:
     print(vehicle.rangefinder.distance)
-    if vehicle.rangefinder.distance < 0.15:
+    if vehicle.rangefinder.distance < 0.30:
         pump_motor_relay.off()
         break
 time.sleep(10)
