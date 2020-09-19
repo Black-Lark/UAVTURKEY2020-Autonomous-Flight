@@ -25,10 +25,10 @@ while True:
         pump_motor_relay.off()
         break
 time.sleep(17)
-pump_motor_relay.on()
-dc_motor_relay.off()
-time.sleep(10)
-dc_motor_relay.on()
+# pump_motor_relay.on()
+# dc_motor_relay.off()
+# time.sleep(10)
+# dc_motor_relay.on()
 print("finished")
 
 # t0 = time.clock()
