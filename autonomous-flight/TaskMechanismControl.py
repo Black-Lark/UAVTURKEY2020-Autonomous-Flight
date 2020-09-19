@@ -16,21 +16,25 @@ dc_motor_relay = LED(8)
 #GPIO.setup(33, GPIO.OUT)
 #pwm=GPIO.PWM(33, 50)
 print("Starting")
-while (level2.is_pressed and level3.is_pressed) is False:
+while True:
     if level0.is_pressed is True:
         pump_motor_relay.off()
-        print("level1: ", level1.is_pressed)
-        print("level2: ", level2.is_pressed)
-print("finished")
+        break
+
+time.sleep(10)
 pump_motor_relay.on()
-
-t0 = time.clock()
-t0 = time.time()
-
-while time.time() - t0 < 2:
-    dc_motor_relay.off()    
-
+dc_motor_relay.off()
+time.sleep(5)
 dc_motor_relay.on()
+print("finished")
+
+# t0 = time.clock()
+# t0 = time.time()
+
+# while time.time() - t0 < 2:
+#     dc_motor_relay.off()    
+
+# dc_motor_relay.on()
 
 #time.sleep(2)
 
