@@ -11,7 +11,7 @@ out = cv2.VideoWriter(file_name,fourcc, 25, (640,480))
 
 while(cap.isOpened()):
     ret, frame = cap.read()
-    ut.write(frame)
+    out.write(frame)
     if ret == True:
         # Filter red color
         frame = cv2.bilateralFilter(frame,9,75,75)
