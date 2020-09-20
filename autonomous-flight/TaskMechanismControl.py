@@ -3,16 +3,16 @@ from signal import pause
 import RPi.GPIO as GPIO
 import time
 from dronekit import connect, VehicleMode, LocationGlobalRelative,Vehicle, LocationGlobal, Command
-vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
+#vehicle = connect("/dev/serial0", wait_ready=True, baud=921000)
 # Water sensor
-level0 = Button(6) # Pompa motors
+#level0 = Button(6) # Pompa motors
 #level1 = Button(13) # Kabın içerisinde zeminde 
 #level2 = Button(19) # kabın içerisinde yukarıda 
-level3 = Button(26) # hava valfinin orada
+#level3 = Button(26) # hava valfinin orada
 
 # pump_motor_relay = LED(7)
 # pump_motor_relay.on()
-dc_motor_relay = LED(8)
+dc_motor_relay = LED(7)
 dc_motor_relay.on()
 #GPIO.setwarnings(False)
 #GPIO.setmode(GPIO.BOARD)
