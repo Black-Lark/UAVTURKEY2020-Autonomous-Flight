@@ -23,7 +23,7 @@ while ((time.time() - process_start) < 15) or water_taken < 10:
             water_taken_start = time.time()
         pump_motor_relay.off()
         pump_is_on = 1
-        time.sleep(3)
+        time.sleep(0.25)
     else:
         water_taken = water_taken + time.time() - water_taken_start
         water_taken_start = 0
