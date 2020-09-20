@@ -12,7 +12,7 @@ from dronekit import connect, VehicleMode, LocationGlobalRelative,Vehicle, Locat
 
 # pump_motor_relay = LED(7)
 # pump_motor_relay.on()
-dc_motor_relay = LED(7)
+dc_motor_relay = LED(8)
 dc_motor_relay.on()
 #GPIO.setwarnings(False)
 #GPIO.setmode(GPIO.BOARD)
@@ -29,7 +29,7 @@ dc_motor_relay.on()
 # dc_motor_relay.off()
 # time.sleep(10)
 # dc_motor_relay.on()
-print("finished")
+
 
 # t0 = time.clock()
 # t0 = time.time()
@@ -44,7 +44,7 @@ time.sleep(2)
 dc_motor_relay.off()
 
 time.sleep(3)
-
+print("finished")
 
 # while True:
 #     print("Level 0: ", level0.is_pressed)
