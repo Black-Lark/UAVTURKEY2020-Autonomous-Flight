@@ -1,12 +1,17 @@
 import cv2
 import numpy as np
+from time import gmtime, strftime 
 
 cap = cv2.VideoCapture(0)
 frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+fourcc = cv2.VideoWriter_fourcc(*'XVID')
+file_name = strftime("%Y-%m-%d_%H-%M-%S", gmtime()) + ".avi"
+out = cv2.VideoWriter(file_name,fourcc, 25, (640,480))
 
 while(cap.isOpened()):
     ret, frame = cap.read()
+    out.write(frame)
     if ret == True:
         # Filter red color
         frame = cv2.bilateralFilter(frame,9,75,75)
