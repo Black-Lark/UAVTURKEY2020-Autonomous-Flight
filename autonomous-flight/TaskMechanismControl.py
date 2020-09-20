@@ -10,21 +10,21 @@ level0 = Button(6) # Pompa motors
 #level2 = Button(19) # kabın içerisinde yukarıda 
 level3 = Button(26) # hava valfinin orada
 
-pump_motor_relay = LED(7)
-pump_motor_relay.on()
+# pump_motor_relay = LED(7)
+# pump_motor_relay.on()
 dc_motor_relay = LED(8)
 dc_motor_relay.on()
 #GPIO.setwarnings(False)
 #GPIO.setmode(GPIO.BOARD)
 #GPIO.setup(33, GPIO.OUT)
 #pwm=GPIO.PWM(33, 50)
-print("Starting")
-while True:
-    print(vehicle.rangefinder.distance)
-    if vehicle.rangefinder.distance < 0.30:
-        pump_motor_relay.off()
-        break
-time.sleep(17)
+# print("Starting")
+# while True:
+#     print(vehicle.rangefinder.distance)
+#     if vehicle.rangefinder.distance < 0.30:
+#         pump_motor_relay.off()
+#         break
+# time.sleep(17)
 # pump_motor_relay.on()
 # dc_motor_relay.off()
 # time.sleep(10)
@@ -37,11 +37,11 @@ print("finished")
 # while time.time() - t0 < 2:
 #     dc_motor_relay.off()    
 
-# dc_motor_relay.on()
+dc_motor_relay.on()
 
-#time.sleep(2)
+time.sleep(2)
 
-#dc_motor_relay.off()
+dc_motor_relay.off()
 
 
 # while True:
