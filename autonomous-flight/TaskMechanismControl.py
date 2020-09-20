@@ -43,6 +43,8 @@ time.sleep(2)
 
 dc_motor_relay.off()
 
+time.sleep(3)
+
 
 # while True:
 #     print("Level 0: ", level0.is_pressed)
