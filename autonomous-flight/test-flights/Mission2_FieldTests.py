@@ -241,7 +241,7 @@ pump_is_on = 0
 water_taken_start = 0
 water_taken = 0
 
-while ((time.time() - process_start) < 15) or water_taken < 10:
+while ((time.time() - process_start) < 20) and water_taken < 12:
     print(vehicle.rangefinder.distance)
     if (vehicle.rangefinder.distance < 0.35) and (pump_is_on == 0):
         if water_taken_start == 0:
